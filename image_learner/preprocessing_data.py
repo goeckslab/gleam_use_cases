@@ -11,7 +11,7 @@ CSV_URL = "https://zenodo.org/records/17702692/files/HAM10000_metadata.csv?downl
 DATASET_DIR = Path("HAM10000_dataset")
 RAW_CSV_PATH = DATASET_DIR / "HAM10000_metadata.csv"
 PREP_CSV_PATH = DATASET_DIR / "HAM10000_metadata_preprocessed.csv"
-SAMPLES_PER_CLASS = 100
+SAMPLES_PER_CLASS = 200
 RANDOM_STATE = 42
 
 

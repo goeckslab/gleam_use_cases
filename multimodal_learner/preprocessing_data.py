@@ -9,28 +9,93 @@ SPLIT_FILE_MAP = {
     "oropharynx": "dataset_split_Oropharynx.json",
 }
 
+# ICD code columns and CD3/CD8 columns to drop in non-paper_like mode
+ICD_CODE_COLS = [
+    "c020", "c021", "c022", "c028", "c029", "c048", "c051", "c052", "c058",
+    "c068", "c090", "c091", "c098", "c099", "c100", "c102", "c108", "c109",
+    "c111", "c130", "c131", "c132", "c138", "c139", "c148", "c320", "c321",
+    "c322", "c323", "c328", "c329", "c770", "c778", "c800", "d000", "d370",
+    "d380", "r590", "r599", "t810",
+]
 
-def load_features(features_dir: Path) -> pd.DataFrame:
-    """Load and outer-merge all feature tables on patient_id."""
+CD3_CD8_COLS = ["cd3_z", "cd3_inv", "cd8_z", "cd8_inv"]
+
+
+def _normalize_patient_id_series(s: pd.Series) -> pd.Series:
+    """Normalize patient_id values to a canonical non-padded numeric string.
+
+    Strategy:
+    - Convert values that look numeric to integers then back to str (removes leading zeros)
+    - For non-numeric values, strip whitespace and leading zeros
+    - Preserve missing values as NA
+    """
+    if s is None:
+        return s
+    s = s.astype(str).str.strip()
+    s = s.replace({"nan": pd.NA, "None": pd.NA})
+
+    nums = pd.to_numeric(s, errors="coerce")
+    out = s.copy()
+    mask = nums.notna()
+    if mask.any():
+        out.loc[mask] = nums.loc[mask].astype("Int64").astype(str)
+
+    nonmask = ~mask
+    if nonmask.any():
+        out.loc[nonmask] = out.loc[nonmask].astype(str).str.lstrip("0")
+
+    out = out.replace({"": pd.NA})
+    return out
+
+
+def load_features(features_dir: Path, paper_like: bool) -> pd.DataFrame:
+    """Load and outer-merge feature tables on patient_id.
+
+    Always includes: clinical, pathological, blood, tma_cell_density.
+    Only includes: icd_text and CD3_CD8_raw_images when paper_like is False.
+    """
     clinical = pd.read_csv(features_dir / "clinical.csv", dtype={"patient_id": str})
     patho = pd.read_csv(features_dir / "pathological.csv", dtype={"patient_id": str})
     blood = pd.read_csv(features_dir / "blood.csv", dtype={"patient_id": str})
-    icd = pd.read_csv(features_dir / "icd_codes.csv", dtype={"patient_id": str})
     cell_density = pd.read_csv(features_dir / "tma_cell_density.csv", dtype={"patient_id": str})
 
+    # Normalize patient_id columns to canonical form across all sources
+    clinical["patient_id"] = _normalize_patient_id_series(clinical.get("patient_id"))
+    patho["patient_id"] = _normalize_patient_id_series(patho.get("patient_id"))
+    blood["patient_id"] = _normalize_patient_id_series(blood.get("patient_id"))
+    cell_density["patient_id"] = _normalize_patient_id_series(cell_density.get("patient_id"))
+
+    # Base merges (always included)
     df = (
         clinical.merge(patho, on="patient_id", how="outer")
         .merge(blood, on="patient_id", how="outer")
-        .merge(icd, on="patient_id", how="outer")
         .merge(cell_density, on="patient_id", how="outer")
         .reset_index(drop=True)
     )
+
+    # Only include ICD and CD3/CD8 when not paper_like
+    if not paper_like:
+        # Use the textual ICD file (icd_text.csv) which contains free-text
+        icd = pd.read_csv(features_dir / "icd_text.csv", dtype={"patient_id": str})
+        cd3_cd8 = pd.read_csv(features_dir / "CD3_CD8_raw_images.csv", dtype={"patient_id": str})
+
+        # Normalize their patient_id columns as well
+        icd["patient_id"] = _normalize_patient_id_series(icd.get("patient_id"))
+        cd3_cd8["patient_id"] = _normalize_patient_id_series(cd3_cd8.get("patient_id"))
+
+        df = (
+            df.merge(icd, on="patient_id", how="outer")
+              .merge(cd3_cd8, on="patient_id", how="outer")
+        )
+
     return df
 
 
 def load_targets(features_dir: Path) -> pd.DataFrame:
     """Load targets table."""
-    return pd.read_csv(features_dir / "targets.csv", dtype={"patient_id": str})
+    targets = pd.read_csv(features_dir / "targets.csv", dtype={"patient_id": str})
+    targets["patient_id"] = _normalize_patient_id_series(targets.get("patient_id"))
+    return targets
 
 
 def build_dataset_for(
@@ -40,6 +105,7 @@ def build_dataset_for(
     targets_df: pd.DataFrame,
     datasplit_dir: Path,
     output_dir: Path,
+    paper_like: bool,
 ) -> Path:
     """Build a single CSV dataset for a given target_label and split_type."""
 
@@ -55,6 +121,7 @@ def build_dataset_for(
 
     # Load split definition (patient_id + dataset)
     df_split = pd.read_json(split_file, dtype={"patient_id": str})[["patient_id", "dataset"]]
+    df_split["patient_id"] = _normalize_patient_id_series(df_split.get("patient_id"))
 
     # Attach targets
     df = df_split.merge(targets_df, on="patient_id", how="inner")
@@ -105,6 +172,11 @@ def build_dataset_for(
     # Drop ALL original columns coming from targets.csv (except patient_id)
     df_merged = df_merged.drop(columns=target_cols_original, errors="ignore")
 
+    # In non-paper_like mode, drop ICD code columns and CD3/CD8 columns
+    if not paper_like:
+        cols_to_drop = ICD_CODE_COLS + CD3_CD8_COLS
+        df_merged = df_merged.drop(columns=cols_to_drop, errors="ignore")
+
     # Re-order columns: patient_id, dataset, target, then all remaining features
     base_cols = ["patient_id", "dataset", "target"]
     other_cols = [c for c in df_merged.columns if c not in base_cols]
@@ -113,13 +185,14 @@ def build_dataset_for(
     # Ensure output directory
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Build filename: e.g., recurrence_in_distribution.csv
-    outfile = output_dir / f"{target_label}_{split_type}.csv"
+    # Build filename: e.g., recurrence_in_distribution.csv or recurrence_in_distribution_paper_like.csv
+    suffix = "_paper_like" if paper_like else ""
+    outfile = output_dir / f"{target_label}_{split_type}{suffix}.csv"
     df_final.to_csv(outfile, index=False)
 
     print(
         f"Wrote {len(df_final)} rows to {outfile} "
-        f"(target={target_label}, split_type={split_type})"
+        f"(target={target_label}, split_type={split_type}, paper_like={paper_like})"
     )
     return outfile
 
@@ -159,6 +232,14 @@ def main():
             "and split_type, ignoring --target_label/--split_type."
         ),
     )
+    parser.add_argument(
+        "--paper_like",
+        action="store_true",
+        help=(
+            "If set, DO NOT read/merge icd_text.csv or CD3_CD8_raw_images.csv; "
+            "produce the paper-like feature set and append '_paper_like' to the output filename."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -170,7 +251,7 @@ def main():
     features_dir = data_dir
     output_dir = Path(args.output_directory)
 
-    features_df = load_features(features_dir)
+    features_df = load_features(features_dir, paper_like=args.paper_like)
     targets_df = load_targets(features_dir)
 
     if args.all:
@@ -183,6 +264,7 @@ def main():
                     targets_df,
                     datasplit_dir,
                     output_dir,
+                    paper_like=args.paper_like,
                 )
     else:
         build_dataset_for(
@@ -192,9 +274,9 @@ def main():
             targets_df,
             datasplit_dir,
             output_dir,
+            paper_like=args.paper_like,
         )
 
 
 if __name__ == "__main__":
     main()
-
