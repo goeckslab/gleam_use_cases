@@ -209,6 +209,20 @@ The script contains a list of ICD-related and CD3/CD8-derived column names that 
 - The script uses outer joins so missing values are represented as `NaN`; consider your downstream imputation/encoding strategy when training models.
 - If you want to keep structured ICD or CD3/CD8 features in the final CSV, run without the default drop logic (modify the script accordingly).
 
+## Ready-to-use datasets (download links)
+
+If you prefer to skip preparing the inputs locally, you can directly download pre-built assets from Zenodo and upload them into Galaxy using the **Upload** option:
+
+- Recurrence (in-distribution) CSV:
+
+  `https://zenodo.org/records/17727354/files/recurrence_in_distribution.csv?download=1`
+
+- All TMA core images for CD3 and CD8 (PNG) as a ZIP archive:
+
+  `https://zenodo.org/records/17727354/files/tma_cores_cd3_cd8_images.zip?download=1`
+
+These two links can be provided directly to Galaxy's upload dialog ("paste URL") to import the CSV and the image ZIP into your Galaxy history/workspace.
+
 ## Contact
 
 For questions about the preprocessing or HANCOCK dataset usage, open an issue in this repository or contact the maintainers.
