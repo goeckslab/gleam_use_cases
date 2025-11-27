@@ -165,9 +165,9 @@ def build_dataset_for(
     # Merge with features
     df_merged = df.merge(features_df, on="patient_id", how="inner")
 
-    # Map dataset to numeric: training -> 0, test -> 2
-    dataset_map = {"training": 0, "test": 2}
-    df_merged["dataset"] = df_merged["dataset"].map(dataset_map).astype("Int64")
+    # Keep `dataset` as string labels ('training' / 'test') instead of numeric codes.
+    # This preserves readability downstream and matches the split JSON values.
+    df_merged["dataset"] = df_merged["dataset"].astype(str)
 
     # Drop ALL original columns coming from targets.csv (except patient_id)
     df_merged = df_merged.drop(columns=target_cols_original, errors="ignore")
