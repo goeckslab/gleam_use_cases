@@ -92,13 +92,13 @@ Only `lesion_id`, `image_id`, and `dx` are required for preprocessing.
 
 ### 3. Class-Balanced Sampling
 
-The script creates a **balanced subset** by sampling up to **100 samples per class** based on the `dx` column:
+The script creates a **balanced subset** by sampling up to **200 samples per class** based on the `dx` column:
 
 - The `dx` column is treated as the **class label** (diagnosis)
 - For each unique class, the script:
   1. Filters metadata to that class
   2. Ensures at most one row per `lesion_id` (see leakage control below)
-  3. Randomly samples up to **100 lesions** (or fewer if unavailable)
+  3. Randomly samples up to **200 lesions** (or fewer if unavailable)
 - Sampling uses a fixed random seed for reproducibility
 
 This follows the preprocessing strategy described by Shetty et al. (2022), where a fixed number of samples per class balances the dataset.

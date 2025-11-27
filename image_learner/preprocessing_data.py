@@ -107,12 +107,30 @@ def prepare_preprocessed_csv(
 # Main
 # -------------------------------------------------------------------------
 def main():
-    if not RAW_CSV_PATH.exists():
-        download_metadata(CSV_URL, RAW_CSV_PATH)
-    else:
-        print(f"Metadata CSV already exists at: {RAW_CSV_PATH}")
+    # First try a possibly-misnamed local file (some environments use
+    # "HAAM10000_metadata.csv"). If it's present and readable, use it.
+    alt_raw = DATASET_DIR / "HAAM10000_metadata.csv"
+    raw_path_to_use = None
 
-    prepare_preprocessed_csv(RAW_CSV_PATH, PREP_CSV_PATH)
+    if alt_raw.exists():
+        try:
+            # Quick read to ensure file is a valid CSV
+            pd.read_csv(alt_raw, nrows=1)
+            print(f"Using alternate metadata file at: {alt_raw}")
+            raw_path_to_use = alt_raw
+        except Exception as exc:  # pragma: no cover - runtime guard
+            print(f"Found {alt_raw} but failed to read it ({exc}); will try other sources.")
+
+    if raw_path_to_use is None:
+        if RAW_CSV_PATH.exists():
+            print(f"Metadata CSV already exists at: {RAW_CSV_PATH}")
+            raw_path_to_use = RAW_CSV_PATH
+        else:
+            print(f"Metadata CSV not found locally; downloading to: {RAW_CSV_PATH}")
+            download_metadata(CSV_URL, RAW_CSV_PATH)
+            raw_path_to_use = RAW_CSV_PATH
+
+    prepare_preprocessed_csv(raw_path_to_use, PREP_CSV_PATH)
 
 
 if __name__ == "__main__":
