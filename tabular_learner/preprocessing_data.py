@@ -17,7 +17,7 @@ from typing import List
 # Configuration
 # ----------------------------------------------------------------------
 DEFAULT_URL = "https://raw.githubusercontent.com/rootchang/LORIS/main/02.Input/AllData.xlsx"
-DEFAULT_SHEETS = ["Chowell_train", "Chowell_test", "MSK1"]
+DEFAULT_SHEETS = ["Chowell_train", "Chowell_test"]
 DEFAULT_OUTPUT_DIR = Path("loris_processed")
 
 
