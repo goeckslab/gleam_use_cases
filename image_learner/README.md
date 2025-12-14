@@ -2,138 +2,131 @@
 
 ## Overview
 
-This repository contains a preprocessing script that prepares the **HAM10000** dermatoscopic dataset for use with the **GLEAM-Image Learner** tool in Galaxy.
+This preprocessing script prepares a class-balanced, lesion-leakage-free subset of the **HAM10000** dermatoscopic dataset for use with GLEAM-Image Learner (Galaxy).
 
-The preprocessing step creates a balanced, leakage-aware metadata CSV file that can be used together with the original HAM10000 image archive when configuring the Image Learner.
+The script is fully self-contained and requires **no input arguments**:
+- Automatically downloads the HAM10000 images and metadata
+- Produces class-balanced samples with lesion-aware splitting
+- Generates optimized 96×96 resized images (original + flipped)
 
-## Dataset and Citation
+**Output files:**
+- `selected_images_96.zip` — ZIP containing 96×96 JPEGs for each selected image (original + horizontally flipped)
+- `selected_image_metadata.csv` — Minimal metadata file with `image_path`, `label`, and `split`
 
-The HAM10000 dataset was created and made publicly available by:
-
-> Peter Tschandl, Cliff Rosendahl, and Harald Kittler
-
-If you use this data, you **must** cite the original publication:
-
-> Tschandl, P., Rosendahl, C. & Kittler, H.
-> The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions.
-> *Sci Data* 5, 180161 (2018).
-> https://doi.org/10.1038/sdata.2018.161
-
-This preprocessing logic follows the sampling and leakage considerations described in:
-
-> Shetty, B., Fernandes, R., Rodrigues, A.P. et al.
-> Skin lesion classification of dermoscopic images using machine learning and convolutional neural network.
-> *Sci Rep* 12, 18134 (2022).  
-> https://doi.org/10.1038/s41598-022-22644-9
-
-## Required Files
-
-### HAM10000 Metadata (CSV)
-The script automatically downloads:
-- https://zenodo.org/records/17702692/files/HAM10000_metadata.csv?download=1
-
-### HAM10000 Images (ZIP)
-Download the full image archive:
-- https://zenodo.org/records/17702692/files/HAM10000_all_images.zip?download=1
-
-This ZIP can be uploaded directly to a Galaxy history and used by the GLEAM-Image Learner tool as the image dataset.
-
-## Requirements
-
-Install the required dependencies:
-
-```bash
-pip install pandas numpy requests
-```
+---
 
 ## Quick Start
 
-### Run the Script
-
 ```bash
+pip install pandas numpy pillow
 python preprocessing_data.py
 ```
 
-### Expected Output
-
+After running, you will find:
 ```
-HAM10000_dataset/
-├── HAM10000_metadata.csv (downloaded raw metadata)
-└── HAM10000_metadata_preprocessed.csv (balanced, leakage-aware metadata)
+downloads/
+├── HAM10000_all_images.zip
+└── HAM10000_metadata.csv
+
+processed_data_no_leak_70_10_20/
+├── selected_images_96.zip
+└── selected_image_metadata.csv
 ```
 
-You can then upload `HAM10000_metadata_preprocessed.csv` to Galaxy and pair it with the `HAM10000_all_images.zip` archive for use with GLEAM-Image Learner.
+Upload `selected_images_96.zip` and `selected_image_metadata.csv` to Galaxy for use with GLEAM-Image Learner.
 
-## What the Preprocessing Script Does
+---
 
-### 1. Folder Setup
+## Requirements
 
-The script ensures a folder named `HAM10000_dataset` exists in the current working directory and stores:
-- `HAM10000_metadata.csv` (downloaded raw metadata)
-- `HAM10000_metadata_preprocessed.csv` (preprocessed output)
+- **Python 3.x**
+- **Dependencies:** `pandas`, `numpy`, `pillow`
+- Other modules used by the script are from the Python standard library
 
-### 2. Download Metadata
+---
 
-The script downloads the original metadata file if it does not already exist:
+## What the Script Does
 
-- **URL**: https://zenodo.org/records/17702692/files/HAM10000_metadata.csv?download=1
-- **Saved as**: `HAM10000_dataset/HAM10000_metadata.csv`
+### 1. Downloads (if missing)
+The script downloads and caches the following files:
+- `./downloads/HAM10000_all_images.zip`
+- `./downloads/HAM10000_metadata.csv`
 
-The raw CSV contains the following columns:
-- `lesion_id`
-- `image_id`
-- `dx` (diagnosis)
-- `dx_type`
-- `age`
-- `sex`
-- `localization`
+If files already exist, they are reused (no re-download).
 
-Only `lesion_id`, `image_id`, and `dx` are required for preprocessing.
+### 2. Loads metadata and sets labels
+- Reads `HAM10000_metadata.csv`
+- Renames the `dx` column to `label` (diagnosis values unchanged)
+- Requires only: `lesion_id`, `image_id`, `label`
 
-### 3. Class-Balanced Sampling
+### 3. Class-balanced sampling (100 per class, lesion-aware)
+The script builds a balanced subset using `sample_balanced_no_leak()`:
+- For each diagnosis class, samples **100 images**
+- Prefers one image per unique lesion to avoid data leakage
+- If fewer than 100 unique lesions exist, tops up with additional images from the same lesions
+- Uses a fixed random seed for reproducibility
 
-The script creates a **balanced subset** by sampling up to **200 samples per class** based on the `dx` column:
+### 4. Train/Val/Test split (70/10/20) without lesion leakage
+After sampling, the script assigns splits using lesion-level splitting:
+- **70%** train, **10%** validation, **20%** test
+- Splitting is performed by shuffling unique `lesion_id` values within each class
+- **No lesion appears in multiple splits**, preventing data leakage even with augmented images
 
-- The `dx` column is treated as the **class label** (diagnosis)
-- For each unique class, the script:
-  1. Filters metadata to that class
-  2. Ensures at most one row per `lesion_id` (see leakage control below)
-  3. Randomly samples up to **200 lesions** (or fewer if unavailable)
-- Sampling uses a fixed random seed for reproducibility
+> **Note:** Proportions are enforced at the lesion level per class; image counts per split may vary slightly.
 
-This follows the preprocessing strategy described by Shetty et al. (2022), where a fixed number of samples per class balances the dataset.
+### 5. Creates 96×96 ZIP (original + flipped)
+For each selected image:
+- `{image_id}_orig.jpg` — 96×96 resized original
+- `{image_id}_flip.jpg` — 96×96 horizontally flipped
 
-### 4. Data Leakage Control
+Images are read directly from the source ZIP without extracting the entire archive (memory efficient).
 
-To prevent **data leakage**, the script enforces **lesion-level uniqueness**:
+### 6. Writes minimal output metadata
+Output CSV contains:
+- `image_path` — Filename inside `selected_images_96.zip`
+- `label` — Diagnosis category
+- `split` — train/val/test assignment
 
-#### Within Each Class
-- Before sampling, metadata for each class is shuffled and deduplicated on `lesion_id`
-- This ensures **only one image per lesion** is considered
-- If a lesion appears multiple times (e.g., multiple dermatoscopic images), only one is kept
-
-#### Across the Final Dataset
-- After concatenating all class samples, the script shuffles again and removes duplicate `lesion_id` rows globally
-- This is a safety measure ensuring a lesion belongs to only one diagnosis class
-
-This lesion-aware sampling prevents the same lesion from appearing in both training and testing splits in downstream experiments, which would artificially inflate performance.
-
-### 5. Output Columns
-
-The script constructs a minimal CSV tailored for GLEAM-Image Learner:
-
-- **`label`**: Copied from the `dx` column (diagnosis)
-- **`image_path`**: Copied from the `image_id` column (e.g., `ISIC_0027419` → `ISIC_0027419.jpg`)
-- **`lesion_id`**: Original lesion identifier
-
-The final file contains only three columns:
-
+**Example:**
 ```csv
-lesion_id,image_path,label
-HAM_0000118,ISIC_0027419,bkl
-HAM_0002730,ISIC_0025661,bkl
+image_path,label,split
+ISIC_0027419_orig.jpg,bkl,train
+ISIC_0027419_flip.jpg,bkl,train
 ```
 
-### Output File
+---
 
-- **Location**: `HAM10000_dataset/HAM10000_metadata_preprocessed.csv`
+## Dataset Information
+
+### Citation
+If you use this dataset, please cite:
+
+**Tschandl et al. (2018)** — The HAM10000 dataset:
+> Tschandl, P., Rosendahl, C. & Kittler, H. The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions. *Sci Data* 5, 180161 (2018).
+> https://doi.org/10.1038/sdata.2018.161
+
+**Shetty et al. (2022)** — Lesion-aware sampling methodology:
+> Shetty, B., Fernandes, R., Rodrigues, A.P. et al. Skin lesion classification of dermoscopic images using machine learning and convolutional neural network. *Sci Rep* 12, 18134 (2022).
+> https://doi.org/10.1038/s41598-022-22644-9
+
+### Data Sources
+Files are automatically downloaded from [Zenodo](https://zenodo.org/records/17702692):
+- **Metadata CSV:** `HAM10000_metadata.csv`
+- **Images ZIP:** `HAM10000_all_images.zip`
+
+### Metadata Columns
+The original metadata CSV contains:
+- `lesion_id` — Unique lesion identifier
+- `image_id` — Unique image identifier
+- `dx` — Diagnosis (renamed to `label`)
+- `dx_type` — Type of diagnostic method
+- `age` — Patient age
+- `sex` — Patient sex
+- `localization` — Body site location
+
+---
+
+## Output Files
+
+processed_data_no_leak_70_10_20/selected_images_96.zip
+processed_data_no_leak_70_10_20/selected_image_metadata.csv
