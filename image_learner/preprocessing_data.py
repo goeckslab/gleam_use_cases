@@ -109,74 +109,9 @@ def sample_balanced_no_leak(df: pd.DataFrame) -> pd.DataFrame:
 # -----------------------------------------------------------------------------
 # Lesion-level split: 70% train / 10% val / 20% test (no leakage)
 # -----------------------------------------------------------------------------
-def assign_split_70_10_20_by_lesion(df: pd.DataFrame) -> pd.DataFrame:
-    rng = np.random.default_rng(RANDOM_SEED)
-    out_parts = []
-
-    for label in sorted(df["label"].unique()):
-        c = df[df["label"] == label].copy()
-        lids = np.array(c["lesion_id"].unique(), dtype=object)
-        rng.shuffle(lids)
-
-        n = len(lids)
-        if n == 0:
-            continue
-
-        # Aim for 70/10/20 by lesion count, remainder goes to test
-        n_train = int(round(0.70 * n))
-        n_val = int(round(0.10 * n))
-        n_test = n - n_train - n_val
-
-        # Guardrails for small n
-        if n >= 3:
-            if n_val == 0:
-                n_val = 1
-                if n_train > 1:
-                    n_train -= 1
-                else:
-                    n_test = max(1, n_test - 1)
-            if n_test == 0:
-                n_test = 1
-                if n_train > 1:
-                    n_train -= 1
-                else:
-                    n_val = max(1, n_val - 1)
-
-        # Final clamp
-        n_train = max(1, min(n_train, n))
-        n_val = max(0, min(n_val, n - n_train))
-        n_test = n - n_train - n_val
-
-        tr_lids = set(lids[:n_train])
-        va_lids = set(lids[n_train : n_train + n_val])
-        te_lids = set(lids[n_train + n_val :])
-
-        c["split"] = np.where(
-            c["lesion_id"].isin(tr_lids),
-            "train",
-            np.where(c["lesion_id"].isin(va_lids), "val", "test"),
-        )
-        out_parts.append(c)
-
-    return pd.concat(out_parts, ignore_index=True)
-
-
-def verify_no_lesion_overlap(df_with_split: pd.DataFrame) -> None:
-    def lids(split_name: str) -> set:
-        return set(df_with_split.loc[df_with_split["split"] == split_name, "lesion_id"].unique())
-
-    tr, va, te = lids("train"), lids("val"), lids("test")
-    overlaps = {
-        "TRAIN/VAL": tr & va,
-        "TRAIN/TEST": tr & te,
-        "VAL/TEST": va & te,
-    }
-    bad = {k: v for k, v in overlaps.items() if v}
-    if bad:
-        for k, v in bad.items():
-            print(f"❌ Leakage detected {k}: {len(v)} lesions")
-    else:
-        print("✅ No lesion_id overlap between train/val/test")
+# Note: split logic removed — this preprocessing now produces outputs
+# with only `image_path` and `label`. Lesion-level splitting was intentionally
+# removed per user request to keep output minimal.
 
 
 # -----------------------------------------------------------------------------
@@ -202,7 +137,6 @@ def add_96_images_to_zip(
     for _, row in df_rows.iterrows():
         iid = row["image_id"]
         lbl = row["label"]
-        split = row["split"]
 
         member = member_map.get(iid) or (f"{iid}.jpg" if f"{iid}.jpg" in src_zip.namelist() else None)
         if member is None:
@@ -226,7 +160,7 @@ def add_96_images_to_zip(
                 )
                 out_zip.writestr(fn, buf.getvalue())
 
-                rows_out.append({"image_path": fn, "label": lbl, "split": split})
+                rows_out.append({"image_path": fn, "label": lbl})
 
         except Exception as e:
             print(f"Skipping {iid}: {e}")
@@ -250,13 +184,12 @@ def main() -> None:
     df = load_metadata(metadata_csv_path)
 
     bal = sample_balanced_no_leak(df)
-    bal = assign_split_70_10_20_by_lesion(bal)
-    verify_no_lesion_overlap(bal)
+    # No split assignment: produce balanced set of images with labels only
+    if "split" in bal.columns:
+        bal = bal.drop(columns=["split"])
 
-    print("\nSplit counts:")
-    print(bal["split"].value_counts(dropna=False).to_string())
-    print("\nLabel counts by split:")
-    print(pd.crosstab(bal["label"], bal["split"]).to_string())
+    print("\nLabel counts:")
+    print(bal["label"].value_counts().to_string())
 
     out_zip_path = OUTPUT_DIR / OUT_ZIP_NAME
     out_csv_path = OUTPUT_DIR / OUT_CSV_NAME
@@ -265,13 +198,13 @@ def main() -> None:
         member_map = build_image_member_map(src_zf)
         with zipfile.ZipFile(out_zip_path, "w", compression=zipfile.ZIP_DEFLATED) as out_zf:
             rows_out = add_96_images_to_zip(
-                df_rows=bal[["image_id", "label", "split"]],
+                df_rows=bal[["image_id", "label"]],
                 src_zip=src_zf,
                 member_map=member_map,
                 out_zip=out_zf,
             )
 
-    pd.DataFrame(rows_out, columns=["image_path", "label", "split"]).to_csv(out_csv_path, index=False)
+    pd.DataFrame(rows_out, columns=["image_path", "label"]).to_csv(out_csv_path, index=False)
 
     print(f"\n✅ Output written to: {OUTPUT_DIR}")
     print(f"  {OUT_ZIP_NAME}")
