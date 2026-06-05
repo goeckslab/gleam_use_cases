@@ -1,17 +1,18 @@
+```markdown
 # HAM10000 Preprocessing for GLEAM-Image Learner
 
 ## Overview
 
-This preprocessing script prepares a class-balanced, lesion-leakage-free subset of the **HAM10000** dermatoscopic dataset for use with GLEAM-Image Learner (Galaxy).
+This preprocessing script prepares a class-balanced, lesion-aware subset of the **HAM10000** dermatoscopic dataset for use with GLEAM-Image Learner (Galaxy).
 
 The script is fully self-contained and requires **no input arguments**:
 - Automatically downloads the HAM10000 images and metadata
-- Produces class-balanced samples with lesion-aware splitting
+- Produces class-balanced samples (no split assignment)
 - Generates optimized 96×96 resized images (original + flipped)
 
 **Output files:**
 - `selected_images_96.zip` — ZIP containing 96×96 JPEGs for each selected image (original + horizontally flipped)
-- `selected_image_metadata.csv` — Minimal metadata file with `image_path`, `label`, and `split`
+- `selected_image_metadata.csv` — Minimal metadata file with `image_path` and `label` only
 
 ---
 
@@ -66,32 +67,23 @@ The script builds a balanced subset using `sample_balanced_no_leak()`:
 - If fewer than 100 unique lesions exist, tops up with additional images from the same lesions
 - Uses a fixed random seed for reproducibility
 
-### 4. Train/Val/Test split (70/10/20) without lesion leakage
-After sampling, the script assigns splits using lesion-level splitting:
-- **70%** train, **10%** validation, **20%** test
-- Splitting is performed by shuffling unique `lesion_id` values within each class
-- **No lesion appears in multiple splits**, preventing data leakage even with augmented images
-
-> **Note:** Proportions are enforced at the lesion level per class; image counts per split may vary slightly.
-
-### 5. Creates 96×96 ZIP (original + flipped)
+### 4. Creates 96×96 ZIP (original + flipped)
 For each selected image:
 - `{image_id}_orig.jpg` — 96×96 resized original
 - `{image_id}_flip.jpg` — 96×96 horizontally flipped
 
 Images are read directly from the source ZIP without extracting the entire archive (memory efficient).
 
-### 6. Writes minimal output metadata
+### 5. Writes minimal output metadata
 Output CSV contains:
 - `image_path` — Filename inside `selected_images_96.zip`
 - `label` — Diagnosis category
-- `split` — train/val/test assignment
 
 **Example:**
 ```csv
-image_path,label,split
-ISIC_0027419_orig.jpg,bkl,train
-ISIC_0027419_flip.jpg,bkl,train
+image_path,label
+ISIC_0027419_orig.jpg,bkl
+ISIC_0027419_flip.jpg,bkl
 ```
 
 ---
@@ -130,3 +122,4 @@ The original metadata CSV contains:
 
 processed_data_no_leak_70_10_20/selected_images_96.zip
 processed_data_no_leak_70_10_20/selected_image_metadata.csv
+``` 
