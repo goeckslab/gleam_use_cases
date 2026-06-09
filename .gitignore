@@ -214,3 +214,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Files ignored because they exceed GitHub's 100 MiB hard limit
+/image_learner/experiment/original_experiment/results/experiment_run/model/model_weights
+/image_learner/experiment/paper_experiment/results/experiment_run/model/model_weights
+/image_learner/experiment/test_code/results/experiment_run/model/model_weights
+/image_learner/HAM10000_dataset/HAM10000_images.zip
+/multimodal_learner/3gb_dataset/CD3_CD8_images_3GB_jpeg.zip
+/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/model.ckpt
+/multimodal_learner/experiment/test_code/trained_model.zip
