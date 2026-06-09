@@ -1,0 +1,2 @@
+Model,Accuracy,ROC-AUC,Recall,Prec.,F1,Kappa,MCC,PR-AUC
+Logistic Regression,0.5767,0.7598,0.8504,0.3518,0.4977,0.2286,0.2965,0.5522632498521575

@@ -1,0 +1,50 @@
+{
+    "checksum": "KaUg0WjDautic01tJTyK_A==",
+    "data_train_hdf5_fp": "results/gleam_image_work_5qop8m5e/processed_data_for_ludwig.training.hdf5",
+    "dataset_src": "results/gleam_image_work_5qop8m5e/processed_data_for_ludwig.csv",
+    "image_path": {
+        "preprocessing": {
+            "channel_class_map": [],
+            "computed_fill_value": null,
+            "fill_value": null,
+            "height": 96,
+            "in_memory": true,
+            "infer_image_dimensions": true,
+            "infer_image_max_height": 96,
+            "infer_image_max_width": 96,
+            "infer_image_num_channels": true,
+            "infer_image_num_classes": false,
+            "infer_image_sample_size": 100,
+            "missing_value_strategy": "bfill",
+            "num_channels": 3,
+            "num_classes": 0,
+            "num_processes": 1,
+            "requires_equal_dimensions": false,
+            "resize_method": "interpolate",
+            "standardize_image": "imagenet1k",
+            "width": 96
+        },
+        "reshape": [
+            3,
+            96,
+            96
+        ]
+    },
+    "label": {
+        "bool2str": [
+            "bcc",
+            "akiec"
+        ],
+        "fallback_true_label": "akiec",
+        "preprocessing": {
+            "computed_fill_value": null,
+            "fallback_true_label": "akiec",
+            "fill_value": null,
+            "missing_value_strategy": "drop_row"
+        },
+        "str2bool": {
+            "akiec": true,
+            "bcc": false
+        }
+    }
+}

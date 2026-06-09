@@ -1,0 +1,17 @@
+Parameter,Value
+Target,Response
+Session ID,42
+Train Size,1.00 (964 rows)
+Normalize,False
+Feature Selection,False
+Cross Validation,True
+Cross Validation Folds,10
+Remove Outliers,False
+Remove Multicollinearity,False
+Polynomial Features,False
+Models,None
+Fix Imbalance,False
+Decision threshold (Test),0.203
+Threshold source,Optimized on validation split
+Threshold optimization metric,F1
+Best Model Metric,Accuracy

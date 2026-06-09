@@ -1,0 +1,17 @@
+Parameter,Value
+Best Model Metric,Accuracy
+Target,Response
+Random Seed,42
+Train Size,964 rows
+Normalize,False
+Feature Selection,False
+Cross Validation,True
+Cross Validation Folds,10
+Remove Outliers,False
+Remove Multicollinearity,False
+Polynomial Features,False
+Models,None
+Fix Imbalance,False
+Threshold source,Optimized on cross-validated training predictions
+Threshold optimization metric,F1
+Decision threshold (Test),0.260

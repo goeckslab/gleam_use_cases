@@ -1,0 +1,1196 @@
+Starting fixed AutoGluon Multimodal experiment...
+MetaFormer models imported successfully
+Generating new fontManager, this may take some time...
+Ludwig visualizations not available: cannot import name '_CategoricalScatterPlotter' from 'seaborn.categorical' (/home/4475918/.conda/envs/ludwig_env/lib/python3.9/site-packages/seaborn/categorical.py). Will use fallback plots only.
+MetaFormer patching applied for Ludwig stacked_cnn encoder.
+Orchestrator initialized with backend: LudwigDirectBackend
+Starting workflow...
+Created temp directory: results/gleam_image_work_tbxce7uh
+Preparing images from ../../HAM10000_dataset/HAM10000_images.zip → results/gleam_image_work_tbxce7uh/images
+Image extraction complete.
+Loading metadata table from ../../HAM10000_dataset/HAM10000_metadata_preprocessed.csv
+Loaded metadata file: ../../HAM10000_dataset/HAM10000_metadata_preprocessed.csv
+No split column; creating stratified random split
+Using stratified random split for train/validation/test sets
+Successfully applied stratified random split
+Split counts: Train=818, Val=118, Test=235
+Saved prepared data to results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.csv
+LudwigDirectBackend: Preparing YAML configuration.
+DETECTED MetaFormer model: caformer_s18_384
+MetaFormer cfg lookup: model=caformer_s18_384 has_cfg=True url=https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth use_pretrained=True
+Detected image dimensions: 600x450
+MetaFormer pretrained weights expect 384x384; proceeding with detected 450x600
+Set preprocessing dimensions for MetaFormer: 450x600 (infer_dimensions=True with max dimensions to allow validation)
+LudwigDirectBackend: YAML config generated.
+Wrote backend config: results/gleam_image_work_tbxce7uh/ludwig_config.yaml
+LudwigDirectBackend: Starting experiment execution.
+Disabled torchvision weight hash verification to avoid proxy-corrupted downloads.
+
+╒════════════════════════╕
+│ EXPERIMENT DESCRIPTION │
+╘════════════════════════╛
+
+╒══════════════════╤═════════════════════════════════════════════════════════════════════════════════════════════════════════════╕
+│ Experiment name  │ experiment                                                                                                  │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Model name       │ run                                                                                                         │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Output directory │ /share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/results/experiment_run │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ ludwig_version   │ '0.10.4'                                                                                                    │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ command          │ ('/share/lab_goecks/paulo/gleam/tools/imagelearner/image_learner_cli.py '                                   │
+│                  │  '--csv-file ../../HAM10000_dataset/HAM10000_metadata_preprocessed.csv '                                    │
+│                  │  '--image-zip ../../HAM10000_dataset/HAM10000_images.zip --model-name '                                     │
+│                  │  'caformer_s18_384 --use-pretrained --fine-tune --augmentation '                                            │
+│                  │  'random_horizontal_flip,random_vertical_flip,random_rotate,random_blur,random_brightness,random_contrast ' │
+│                  │  '--epochs 30 --early-stop 30 --output-dir ./results --image-resize original '                              │
+│                  │  '--validation-metric loss')                                                                                │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ commit_hash      │ '731fa763daf1'                                                                                              │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ random_seed      │ 42                                                                                                          │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ dataset          │ 'results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.csv'                                           │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ data_format      │ 'csv'                                                                                                       │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ torch_version    │ '2.5.1'                                                                                                     │
+├──────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ compute          │ {   'arch_list': [   'sm_50',                                                                               │
+│                  │                      'sm_60',                                                                               │
+│                  │                      'sm_61',                                                                               │
+│                  │                      'sm_70',                                                                               │
+│                  │                      'sm_75',                                                                               │
+│                  │                      'sm_80',                                                                               │
+│                  │                      'sm_86',                                                                               │
+│                  │                      'sm_90'],                                                                              │
+│                  │     'devices': {   0: {   'device_capability': (8, 0),                                                      │
+│                  │                           'device_properties': "_CudaDeviceProperties(name='NVIDIA "                        │
+│                  │                                                "A30', major=8, minor=0, "                                   │
+│                  │                                                'total_memory=24167MB, '                                     │
+│                  │                                                'multi_processor_count=56, '                                 │
+│                  │                                                'uuid=124e9bae-5c91-2da6-6c58-b4d88424adbf, '                │
+│                  │                                                'L2_cache_size=24MB)',                                       │
+│                  │                           'gpu_type': 'NVIDIA A30'}},                                                       │
+│                  │     'gencode_flags': '-gencode compute=compute_50,code=sm_50 -gencode '                                     │
+│                  │                      'compute=compute_60,code=sm_60 -gencode '                                              │
+│                  │                      'compute=compute_61,code=sm_61 -gencode '                                              │
+│                  │                      'compute=compute_70,code=sm_70 -gencode '                                              │
+│                  │                      'compute=compute_75,code=sm_75 -gencode '                                              │
+│                  │                      'compute=compute_80,code=sm_80 -gencode '                                              │
+│                  │                      'compute=compute_86,code=sm_86 -gencode '                                              │
+│                  │                      'compute=compute_90,code=sm_90',                                                       │
+│                  │     'gpus_per_node': 1,                                                                                     │
+│                  │     'num_nodes': 1}                                                                                         │
+╘══════════════════╧═════════════════════════════════════════════════════════════════════════════════════════════════════════════╛
+
+╒═══════════════╕
+│ LUDWIG CONFIG │
+╘═══════════════╛
+
+User-specified config (with upgrades):
+
+{   'combiner': {'type': 'concat'},
+    'input_features': [   {   'augmentation': [   {   'type': 'random_horizontal_flip'},
+                                                  {   'type': 'random_vertical_flip'},
+                                                  {   'degree': 10,
+                                                      'type': 'random_rotate'},
+                                                  {   'kernel_size': 3,
+                                                      'type': 'random_blur'},
+                                                  {   'max': 2.0,
+                                                      'min': 0.5,
+                                                      'type': 'random_brightness'},
+                                                  {   'max': 2.0,
+                                                      'min': 0.5,
+                                                      'type': 'random_contrast'}],
+                              'encoder': {   'custom_model': 'caformer_s18_384',
+                                             'height': 450,
+                                             'num_channels': 3,
+                                             'output_size': 128,
+                                             'trainable': True,
+                                             'type': 'stacked_cnn',
+                                             'use_pretrained': True,
+                                             'width': 600},
+                              'name': 'image_path',
+                              'preprocessing': {   'height': 450,
+                                                   'infer_image_dimensions': True,
+                                                   'infer_image_max_height': 450,
+                                                   'infer_image_max_width': 600,
+                                                   'num_channels': 3,
+                                                   'requires_equal_dimensions': False,
+                                                   'resize_method': 'interpolate',
+                                                   'standardize_image': 'imagenet1k',
+                                                   'width': 600},
+                              'type': 'image'}],
+    'ludwig_version': '0.10.4',
+    'model_type': 'ecd',
+    'output_features': [   {   'loss': {   'class_weights': None,
+                                           'type': 'softmax_cross_entropy'},
+                               'name': 'label',
+                               'type': 'category'}],
+    'preprocessing': {   'in_memory': False,
+                         'num_processes': 32,
+                         'split': {'column': 'split', 'type': 'fixed'}},
+    'trainer': {   'batch_size': 'auto',
+                   'early_stop': 30,
+                   'epochs': 30,
+                   'learning_rate': 'auto',
+                   'validation_metric': 'loss'}}
+
+Full config saved to:
+/share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/results/experiment_run/experiment/model/model_hyperparameters.json
+
+╒═══════════════╕
+│ PREPROCESSING │
+╘═══════════════╛
+
+No cached dataset found at results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.training.hdf5. Preprocessing the dataset.
+Using full raw dataset, no hdf5 and json file with the same name have been found
+Building dataset (it may take a while)
+Building dataset: DONE
+Writing preprocessed training set cache to results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.training.hdf5
+Writing preprocessed validation set cache to results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.validation.hdf5
+Writing preprocessed test set cache to results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.test.hdf5
+Writing train set metadata to results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.meta.json
+
+Dataset Statistics
+╒════════════╤═══════════════╤════════════════════╕
+│ Dataset    │   Size (Rows) │ Size (In Memory)   │
+╞════════════╪═══════════════╪════════════════════╡
+│ Training   │           818 │ 122.35 Kb          │
+├────────────┼───────────────┼────────────────────┤
+│ Validation │           118 │ 17.76 Kb           │
+├────────────┼───────────────┼────────────────────┤
+│ Test       │           235 │ 35.24 Kb           │
+╘════════════╧═══════════════╧════════════════════╛
+
+╒═══════╕
+│ MODEL │
+╘═══════╛
+
+Warnings and other logs:
+patched Stacked2DCNN init called; custom_model=caformer_s18_384 kwargs_keys=['encoder_config', 'type', 'skip', 'conv_dropout', 'conv_activation', 'height', 'width', 'num_channels', 'out_channels', 'kernel_size', 'stride', 'padding_mode', 'padding', 'dilation', 'groups', 'pool_function', 'pool_kernel_size', 'pool_stride', 'pool_padding', 'pool_dilation', 'output_size', 'conv_use_bias', 'conv_norm', 'conv_norm_params', 'num_conv_layers', 'conv_layers', 'fc_dropout', 'fc_activation', 'fc_use_bias', 'fc_bias_initializer', 'fc_weights_initializer', 'fc_norm', 'fc_norm_params', 'num_fc_layers', 'fc_layers']
+DETECTED MetaFormer model: caformer_s18_384
+MetaFormer encoder is being loaded and used.
+MetaFormerStackedCNN encoder instantiated
+Using MetaFormer model: caformer_s18_384
+Overriding expected backbone size to 224x224 for compatibility (was 384x384)
+Initializing MetaFormerStackedCNN with model: caformer_s18_384
+Input: 3x450x600 -> Output: 128 (expected backbone size: 224x224)
+Configured size adapter to requested input: 450x600
+MetaFormer backbone requested: caformer_s18_384, use_pretrained=True
+MetaFormer cfg present=True
+MetaFormer weights_url=https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+LOADING MetaFormer pretrained weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+Loading pretrained weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+CREATING MetaFormer model: caformer_s18_384 (pretrained=True)
+DOWNLOADING weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+DOWNLOADING weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+WEIGHTS DOWNLOADED successfully from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+MetaFormer model CREATED: caformer_s18_384
+MetaFormer: pretrained weights loaded from https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+MetaFormer: pretrained weights loaded from https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+Loaded MetaFormer backbone: caformer_s18_384 (pretrained=True)
+MetaFormer feature dimension: 512
+MetaFormerStackedCNN initialized successfully
+CONFIRMED: MetaFormer 'caformer_s18_384' using pretrained weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+CONFIRMED: MetaFormer 'caformer_s18_384' using pretrained weights from: https://huggingface.co/sail/dl/resolve/main/caformer/caformer_s18_384.pth
+Creating Augmentation pipline: [type: random_horizontal_flip
+, type: random_vertical_flip
+, type: random_rotate
+degree: 10
+, type: random_blur
+kernel_size: 3
+, type: random_brightness
+min: 0.5
+max: 2.0
+, type: random_contrast
+min: 0.5
+max: 2.0
+]
+Tuning batch size...
+Tuning batch size...
+Exploring batch_size=1
+Aligning to MetaFormer backbone size: 224x224
+Throughput at batch_size=1: 28.33281 samples/s
+Exploring batch_size=2
+Throughput at batch_size=2: 44.87278 samples/s
+Exploring batch_size=4
+Throughput at batch_size=4: 72.70386 samples/s
+Exploring batch_size=8
+Throughput at batch_size=8: 83.28435 samples/s
+Exploring batch_size=16
+Throughput at batch_size=16: 86.58426 samples/s
+Exploring batch_size=32
+Throughput at batch_size=32: 89.85528 samples/s
+Exploring batch_size=64
+Throughput at batch_size=64: 92.13021 samples/s
+Exploring batch_size=128
+Throughput at batch_size=128: 93.14644 samples/s
+Batch size 256 is invalid, must be less than or equal to 20.0% dataset size (163 samples of 818) and less than or equal to max batch size 1099511627776
+Selected batch_size=128
+Successfully loaded model weights from /tmp/4475918/ag_tmp_fixed/tmpk5lo8plw/latest.ckpt.
+Tuning batch size...
+Tuning batch size...
+Exploring batch_size=1
+Throughput at batch_size=1: 90.12643 samples/s
+Exploring batch_size=2
+Throughput at batch_size=2: 138.96246 samples/s
+Exploring batch_size=4
+Throughput at batch_size=4: 196.87178 samples/s
+Exploring batch_size=8
+Throughput at batch_size=8: 231.93613 samples/s
+Exploring batch_size=16
+Throughput at batch_size=16: 253.85984 samples/s
+Exploring batch_size=32
+Throughput at batch_size=32: 273.85896 samples/s
+Exploring batch_size=64
+Throughput at batch_size=64: 283.27660 samples/s
+Exploring batch_size=128
+Throughput at batch_size=128: 290.29025 samples/s
+Batch size 256 is invalid, must be less than or equal to 20.0% dataset size (163 samples of 818) and less than or equal to max batch size 1099511627776
+Selected batch_size=128
+
+╒══════════╕
+│ TRAINING │
+╘══════════╛
+
+Creating fresh model training run.
+Training for 210 step(s), approximately 30 epoch(s).
+Early stopping policy: 30 round(s) of evaluation, or 210 step(s), approximately 30 epoch(s).
+
+Starting with step 0, epoch: 0
+Training:   0% 0/210 [00:00<?, ?it/s]Training:   0% 0/210 [00:04<?, ?it/s, loss=2.16]Training:   0% 1/210 [00:04<16:27,  4.73s/it, loss=2.16]Training:   0% 1/210 [00:06<16:27,  4.73s/it, loss=2.05]Training:   1% 2/210 [00:06<11:21,  3.28s/it, loss=2.05]Training:   1% 2/210 [00:10<11:21,  3.28s/it, loss=1.89]Training:   1% 3/210 [00:10<12:16,  3.56s/it, loss=1.89]Training:   1% 3/210 [00:16<12:16,  3.56s/it, loss=1.89]Training:   2% 4/210 [00:16<14:47,  4.31s/it, loss=1.89]Training:   2% 4/210 [00:19<14:47,  4.31s/it, loss=1.77]Training:   2% 5/210 [00:19<13:01,  3.81s/it, loss=1.77]Training:   2% 5/210 [00:23<13:01,  3.81s/it, loss=1.75]Training:   3% 6/210 [00:23<13:01,  3.83s/it, loss=1.75]Training:   3% 6/210 [00:24<13:01,  3.83s/it, loss=1.71]Training:   3% 7/210 [00:24<10:07,  2.99s/it, loss=1.71]
+Running evaluation for step: 7, epoch: 1
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.65it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.1459s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.1959 │       0.4000 │ 0.4286 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.2347 │       0.4237 │ 0.4638 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.5349 │       0.8321 │ 0.7476 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  1.8899 │       1.4889 │ 1.5345 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.6139 │       0.8364 │ 0.7965 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  1.8899 │       1.4889 │ 1.5345 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by inf.
+New best model saved.
+
+Training:   3% 7/210 [00:43<10:07,  2.99s/it, loss=1.4] Training:   4% 8/210 [00:43<27:06,  8.05s/it, loss=1.4]Training:   4% 8/210 [00:48<27:06,  8.05s/it, loss=1.5]Training:   4% 9/210 [00:48<23:46,  7.10s/it, loss=1.5]Training:   4% 9/210 [00:52<23:46,  7.10s/it, loss=1.48]Training:   5% 10/210 [00:52<20:23,  6.12s/it, loss=1.48]Training:   5% 10/210 [00:56<20:23,  6.12s/it, loss=1.32]Training:   5% 11/210 [00:56<18:00,  5.43s/it, loss=1.32]Training:   5% 11/210 [01:00<18:00,  5.43s/it, loss=1.36]Training:   6% 12/210 [01:00<17:14,  5.22s/it, loss=1.36]Training:   6% 12/210 [01:03<17:14,  5.22s/it, loss=1.51]Training:   6% 13/210 [01:03<15:00,  4.57s/it, loss=1.51]Training:   6% 13/210 [01:05<15:00,  4.57s/it, loss=1.35]Training:   7% 14/210 [01:05<12:12,  3.74s/it, loss=1.35]
+Running evaluation for step: 14, epoch: 2
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.01it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.63it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.87it/s]
+Evaluation took 1.8713s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.4750 │       0.5464 │ 0.4655 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.5012 │       0.5424 │ 0.4979 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.7754 │       0.8643 │ 0.8357 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  1.4153 │       1.2881 │ 1.3351 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.8319 │       0.8692 │ 0.8569 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  1.4153 │       1.2881 │ 1.3351 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.201.
+New best model saved.
+
+Training:   7% 14/210 [01:22<12:12,  3.74s/it, loss=1.23]Training:   7% 15/210 [01:22<25:07,  7.73s/it, loss=1.23]Training:   7% 15/210 [01:26<25:07,  7.73s/it, loss=1.11]Training:   8% 16/210 [01:26<21:05,  6.52s/it, loss=1.11]Training:   8% 16/210 [01:31<21:05,  6.52s/it, loss=1.15]Training:   8% 17/210 [01:31<20:00,  6.22s/it, loss=1.15]Training:   8% 17/210 [01:34<20:00,  6.22s/it, loss=1.09]Training:   9% 18/210 [01:34<16:46,  5.24s/it, loss=1.09]Training:   9% 18/210 [01:40<16:46,  5.24s/it, loss=1.28]Training:   9% 19/210 [01:40<16:57,  5.33s/it, loss=1.28]Training:   9% 19/210 [01:43<16:57,  5.33s/it, loss=1.1] Training:  10% 20/210 [01:43<14:19,  4.52s/it, loss=1.1]Training:  10% 20/210 [01:44<14:19,  4.52s/it, loss=1.04]Training:  10% 21/210 [01:44<11:21,  3.60s/it, loss=1.04]
+Running evaluation for step: 21, epoch: 3
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.57it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.90it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.84it/s]
+Evaluation took 1.9930s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.5669 │       0.6821 │ 0.5262 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.5880 │       0.6610 │ 0.5404 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.8760 │       0.9536 │ 0.9107 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  1.1436 │       0.9856 │ 1.0881 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.8866 │       0.9151 │ 0.8986 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  1.1436 │       0.9856 │ 1.0881 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.302.
+New best model saved.
+
+Training:  10% 21/210 [02:00<11:21,  3.60s/it, loss=1.2] Training:  10% 22/210 [02:00<23:04,  7.36s/it, loss=1.2]Training:  10% 22/210 [02:04<23:04,  7.36s/it, loss=1.2]Training:  11% 23/210 [02:04<19:41,  6.32s/it, loss=1.2]Training:  11% 23/210 [02:10<19:41,  6.32s/it, loss=0.993]Training:  11% 24/210 [02:10<18:56,  6.11s/it, loss=0.993]Training:  11% 24/210 [02:13<18:56,  6.11s/it, loss=0.953]Training:  12% 25/210 [02:13<16:06,  5.22s/it, loss=0.953]Training:  12% 25/210 [02:16<16:06,  5.22s/it, loss=0.845]Training:  12% 26/210 [02:16<14:22,  4.69s/it, loss=0.845]Training:  12% 26/210 [02:20<14:22,  4.69s/it, loss=0.842]Training:  13% 27/210 [02:20<13:30,  4.43s/it, loss=0.842]Training:  13% 27/210 [02:22<13:30,  4.43s/it, loss=0.858]Training:  13% 28/210 [02:22<10:49,  3.57s/it, loss=0.858]
+Running evaluation for step: 28, epoch: 4
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.58it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.93it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.87it/s]
+Evaluation took 1.9203s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.6405 │       0.6929 │ 0.6131 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.6381 │       0.6610 │ 0.6170 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9180 │       0.9607 │ 0.9357 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.9840 │       0.8858 │ 0.9690 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9107 │       0.9273 │ 0.9168 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.9840 │       0.8858 │ 0.9690 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.1.
+New best model saved.
+
+Training:  13% 28/210 [02:38<10:49,  3.57s/it, loss=0.892]Training:  14% 29/210 [02:38<22:13,  7.37s/it, loss=0.892]Training:  14% 29/210 [02:43<22:13,  7.37s/it, loss=0.965]Training:  14% 30/210 [02:43<19:40,  6.56s/it, loss=0.965]Training:  14% 30/210 [02:47<19:40,  6.56s/it, loss=0.882]Training:  15% 31/210 [02:47<17:15,  5.78s/it, loss=0.882]Training:  15% 31/210 [02:50<17:15,  5.78s/it, loss=0.712]Training:  15% 32/210 [02:50<15:28,  5.22s/it, loss=0.712]Training:  15% 32/210 [02:55<15:28,  5.22s/it, loss=0.783]Training:  16% 33/210 [02:55<14:53,  5.05s/it, loss=0.783]Training:  16% 33/210 [03:01<14:53,  5.05s/it, loss=0.676]Training:  16% 34/210 [03:01<15:10,  5.18s/it, loss=0.676]Training:  16% 34/210 [03:02<15:10,  5.18s/it, loss=0.866]Training:  17% 35/210 [03:02<11:55,  4.09s/it, loss=0.866]
+Running evaluation for step: 35, epoch: 5
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.01it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.64it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.93it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.88it/s]
+Evaluation took 1.8566s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.7094 │       0.7214 │ 0.6726 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.7103 │       0.6949 │ 0.6766 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9452 │       0.9429 │ 0.9226 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.8251 │       0.7954 │ 0.9295 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9434 │       0.9420 │ 0.9186 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.8251 │       0.7954 │ 0.9295 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.09.
+New best model saved.
+
+Training:  17% 35/210 [03:20<11:55,  4.09s/it, loss=0.638]Training:  17% 36/210 [03:20<23:44,  8.19s/it, loss=0.638]Training:  17% 36/210 [03:23<23:44,  8.19s/it, loss=0.742]Training:  18% 37/210 [03:23<19:37,  6.81s/it, loss=0.742]Training:  18% 37/210 [03:28<19:37,  6.81s/it, loss=0.834]Training:  18% 38/210 [03:28<17:42,  6.18s/it, loss=0.834]Training:  18% 38/210 [03:33<17:42,  6.18s/it, loss=0.538]Training:  19% 39/210 [03:33<16:24,  5.76s/it, loss=0.538]Training:  19% 39/210 [03:38<16:24,  5.76s/it, loss=0.772]Training:  19% 40/210 [03:38<16:03,  5.67s/it, loss=0.772]Training:  19% 40/210 [03:42<16:03,  5.67s/it, loss=0.626]Training:  20% 41/210 [03:42<14:10,  5.03s/it, loss=0.626]Training:  20% 41/210 [03:43<14:10,  5.03s/it, loss=0.798]Training:  20% 42/210 [03:43<11:09,  3.99s/it, loss=0.798]
+Running evaluation for step: 42, epoch: 6
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.58it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.85it/s]
+Evaluation took 1.9576s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.7646 │       0.7536 │ 0.6774 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.7579 │       0.7203 │ 0.6596 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9565 │       0.9607 │ 0.9488 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.7069 │       0.7391 │ 0.8719 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9563 │       0.9500 │ 0.9298 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.7069 │       0.7391 │ 0.8719 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.056.
+New best model saved.
+
+Training:  20% 42/210 [04:02<11:09,  3.99s/it, loss=0.606]Training:  20% 43/210 [04:02<22:57,  8.25s/it, loss=0.606]Training:  20% 43/210 [04:07<22:57,  8.25s/it, loss=0.853]Training:  21% 44/210 [04:07<20:37,  7.46s/it, loss=0.853]Training:  21% 44/210 [04:13<20:37,  7.46s/it, loss=0.978]Training:  21% 45/210 [04:13<18:54,  6.88s/it, loss=0.978]Training:  21% 45/210 [04:16<18:54,  6.88s/it, loss=0.666]Training:  22% 46/210 [04:16<15:42,  5.75s/it, loss=0.666]Training:  22% 46/210 [04:21<15:42,  5.75s/it, loss=0.648]Training:  22% 47/210 [04:21<14:44,  5.43s/it, loss=0.648]Training:  22% 47/210 [04:24<14:44,  5.43s/it, loss=0.547]Training:  23% 48/210 [04:24<13:12,  4.89s/it, loss=0.547]Training:  23% 48/210 [04:26<13:12,  4.89s/it, loss=0.52] Training:  23% 49/210 [04:26<10:26,  3.89s/it, loss=0.52]
+Running evaluation for step: 49, epoch: 7
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.64it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]
+Evaluation took 1.7859s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.7608 │       0.7536 │ 0.6417 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.7531 │       0.7203 │ 0.6255 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9676 │       0.9393 │ 0.9321 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.6885 │       0.7072 │ 0.8801 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9570 │       0.9545 │ 0.9272 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.6885 │       0.7072 │ 0.8801 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Evaluation validation metric: 'label' 'loss' improved.
+'label' 'loss' decreased by 0.032.
+New best model saved.
+
+Training:  23% 49/210 [04:41<10:26,  3.89s/it, loss=0.426]Training:  24% 50/210 [04:41<19:29,  7.31s/it, loss=0.426]Training:  24% 50/210 [04:46<19:29,  7.31s/it, loss=0.735]Training:  24% 51/210 [04:46<17:05,  6.45s/it, loss=0.735]Training:  24% 51/210 [04:49<17:05,  6.45s/it, loss=0.539]Training:  25% 52/210 [04:49<14:44,  5.60s/it, loss=0.539]Training:  25% 52/210 [04:54<14:44,  5.60s/it, loss=0.47] Training:  25% 53/210 [04:54<13:49,  5.29s/it, loss=0.47]Training:  25% 53/210 [04:57<13:49,  5.29s/it, loss=0.549]Training:  26% 54/210 [04:57<12:25,  4.78s/it, loss=0.549]Training:  26% 54/210 [05:02<12:25,  4.78s/it, loss=0.718]Training:  26% 55/210 [05:02<12:11,  4.72s/it, loss=0.718]Training:  26% 55/210 [05:03<12:11,  4.72s/it, loss=0.468]Training:  27% 56/210 [05:03<09:34,  3.73s/it, loss=0.468]
+Running evaluation for step: 56, epoch: 8
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.02it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.01it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.65it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.8467s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.8169 │       0.6786 │ 0.6655 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.8105 │       0.6525 │ 0.6723 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9827 │       0.9714 │ 0.9119 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.5578 │       0.8251 │ 0.9373 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9724 │       0.9441 │ 0.9283 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.5578 │       0.8251 │ 0.9373 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 7 step(s) ago.
+
+Training:  27% 56/210 [05:16<09:34,  3.73s/it, loss=0.467]Training:  27% 57/210 [05:16<16:43,  6.56s/it, loss=0.467]Training:  27% 57/210 [05:20<16:43,  6.56s/it, loss=0.536]Training:  28% 58/210 [05:20<14:25,  5.69s/it, loss=0.536]Training:  28% 58/210 [05:24<14:25,  5.69s/it, loss=0.42] Training:  28% 59/210 [05:24<13:00,  5.17s/it, loss=0.42]Training:  28% 59/210 [05:27<13:00,  5.17s/it, loss=0.328]Training:  29% 60/210 [05:27<11:21,  4.55s/it, loss=0.328]Training:  29% 60/210 [05:31<11:21,  4.55s/it, loss=0.459]Training:  29% 61/210 [05:31<10:39,  4.29s/it, loss=0.459]Training:  29% 61/210 [05:34<10:39,  4.29s/it, loss=0.347]Training:  30% 62/210 [05:34<09:39,  3.92s/it, loss=0.347]Training:  30% 62/210 [05:35<09:39,  3.92s/it, loss=0.361]Training:  30% 63/210 [05:35<07:44,  3.16s/it, loss=0.361]
+Running evaluation for step: 63, epoch: 9
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.57it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.90it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.84it/s]
+Evaluation took 1.9513s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.8731 │       0.7179 │ 0.6845 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.8655 │       0.6780 │ 0.6766 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9849 │       0.9571 │ 0.9310 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.4169 │       0.8296 │ 0.8585 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9865 │       0.9462 │ 0.9404 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.4169 │       0.8296 │ 0.8585 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 14 step(s) ago.
+
+Training:  30% 63/210 [05:47<07:44,  3.16s/it, loss=0.412]Training:  30% 64/210 [05:47<14:07,  5.80s/it, loss=0.412]Training:  30% 64/210 [05:50<14:07,  5.80s/it, loss=0.324]Training:  31% 65/210 [05:50<12:05,  5.00s/it, loss=0.324]Training:  31% 65/210 [05:54<12:05,  5.00s/it, loss=0.229]Training:  31% 66/210 [05:54<11:14,  4.68s/it, loss=0.229]Training:  31% 66/210 [06:00<11:14,  4.68s/it, loss=0.447]Training:  32% 67/210 [06:00<11:43,  4.92s/it, loss=0.447]Training:  32% 67/210 [06:05<11:43,  4.92s/it, loss=0.421]Training:  32% 68/210 [06:05<11:33,  4.88s/it, loss=0.421]Training:  32% 68/210 [06:08<11:33,  4.88s/it, loss=0.512]Training:  33% 69/210 [06:08<10:10,  4.33s/it, loss=0.512]Training:  33% 69/210 [06:09<10:10,  4.33s/it, loss=0.686]Training:  33% 70/210 [06:09<08:05,  3.47s/it, loss=0.686]
+Running evaluation for step: 70, epoch: 10
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.90it/s]
+Evaluation took 1.8275s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.8534 │       0.7250 │ 0.6619 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.8521 │       0.6864 │ 0.6638 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9939 │       0.9643 │ 0.9357 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.4330 │       0.8783 │ 1.0670 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9847 │       0.9431 │ 0.9235 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.4330 │       0.8783 │ 1.0670 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 21 step(s) ago.
+
+Training:  33% 70/210 [06:22<08:05,  3.47s/it, loss=0.398]Training:  34% 71/210 [06:22<14:39,  6.33s/it, loss=0.398]Training:  34% 71/210 [06:24<14:39,  6.33s/it, loss=0.357]Training:  34% 72/210 [06:24<11:46,  5.12s/it, loss=0.357]Training:  34% 72/210 [06:29<11:46,  5.12s/it, loss=0.236]Training:  35% 73/210 [06:29<11:27,  5.02s/it, loss=0.236]Training:  35% 73/210 [06:31<11:27,  5.02s/it, loss=0.238]Training:  35% 74/210 [06:31<09:28,  4.18s/it, loss=0.238]Training:  35% 74/210 [06:37<09:28,  4.18s/it, loss=0.256]Training:  36% 75/210 [06:37<10:18,  4.58s/it, loss=0.256]Training:  36% 75/210 [06:40<10:18,  4.58s/it, loss=0.435]Training:  36% 76/210 [06:40<09:13,  4.13s/it, loss=0.435]Training:  36% 76/210 [06:41<09:13,  4.13s/it, loss=0.188]Training:  37% 77/210 [06:41<07:12,  3.25s/it, loss=0.188]
+Running evaluation for step: 77, epoch: 11
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  2.99it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.63it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.93it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.88it/s]
+Evaluation took 1.8609s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9073 │       0.7321 │ 0.6940 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9034 │       0.6949 │ 0.6766 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9969 │       0.9786 │ 0.9310 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.3012 │       0.8646 │ 0.9134 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9909 │       0.9440 │ 0.9388 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.3012 │       0.8646 │ 0.9134 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 28 step(s) ago.
+
+Training:  37% 77/210 [06:53<07:12,  3.25s/it, loss=0.297]Training:  37% 78/210 [06:53<12:34,  5.72s/it, loss=0.297]Training:  37% 78/210 [06:57<12:34,  5.72s/it, loss=0.375]Training:  38% 79/210 [06:57<11:51,  5.43s/it, loss=0.375]Training:  38% 79/210 [07:02<11:51,  5.43s/it, loss=0.146]Training:  38% 80/210 [07:02<11:15,  5.20s/it, loss=0.146]Training:  38% 80/210 [07:05<11:15,  5.20s/it, loss=0.245]Training:  39% 81/210 [07:05<09:48,  4.56s/it, loss=0.245]Training:  39% 81/210 [07:10<09:48,  4.56s/it, loss=0.58] Training:  39% 82/210 [07:10<09:44,  4.56s/it, loss=0.58]Training:  39% 82/210 [07:15<09:44,  4.56s/it, loss=0.232]Training:  40% 83/210 [07:15<09:47,  4.62s/it, loss=0.232]Training:  40% 83/210 [07:16<09:47,  4.62s/it, loss=0.173]Training:  40% 84/210 [07:16<07:47,  3.71s/it, loss=0.173]
+Running evaluation for step: 84, epoch: 12
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.00it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.87it/s]
+Evaluation took 1.8866s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9110 │       0.7643 │ 0.7012 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9022 │       0.7288 │ 0.6894 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9959 │       0.9786 │ 0.9452 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.2925 │       0.8068 │ 0.9008 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9915 │       0.9464 │ 0.9368 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.2925 │       0.8068 │ 0.9008 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 35 step(s) ago.
+
+Training:  40% 84/210 [07:28<07:47,  3.71s/it, loss=0.205]Training:  40% 85/210 [07:28<13:06,  6.29s/it, loss=0.205]Training:  40% 85/210 [07:32<13:06,  6.29s/it, loss=0.0929]Training:  41% 86/210 [07:32<11:30,  5.57s/it, loss=0.0929]Training:  41% 86/210 [07:36<11:30,  5.57s/it, loss=0.212] Training:  41% 87/210 [07:36<09:58,  4.87s/it, loss=0.212]Training:  41% 87/210 [07:39<09:58,  4.87s/it, loss=0.335]Training:  42% 88/210 [07:39<09:18,  4.58s/it, loss=0.335]Training:  42% 88/210 [07:42<09:18,  4.58s/it, loss=0.21] Training:  42% 89/210 [07:42<08:17,  4.11s/it, loss=0.21]Training:  42% 89/210 [07:48<08:17,  4.11s/it, loss=0.325]Training:  43% 90/210 [07:48<09:01,  4.52s/it, loss=0.325]Training:  43% 90/210 [07:49<09:01,  4.52s/it, loss=0.075]Training:  43% 91/210 [07:49<07:10,  3.62s/it, loss=0.075]
+Running evaluation for step: 91, epoch: 13
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.63it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.7249s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9322 │       0.7429 │ 0.6750 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9254 │       0.7288 │ 0.6723 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9643 │ 0.9298 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.2077 │       0.8392 │ 0.9468 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9961 │       0.9450 │ 0.9350 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.2077 │       0.8392 │ 0.9468 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 42 step(s) ago.
+
+Training:  43% 91/210 [08:01<07:10,  3.62s/it, loss=0.0861]Training:  44% 92/210 [08:01<11:33,  5.88s/it, loss=0.0861]Training:  44% 92/210 [08:04<11:33,  5.88s/it, loss=0.496] Training:  44% 93/210 [08:04<09:52,  5.06s/it, loss=0.496]Training:  44% 93/210 [08:08<09:52,  5.06s/it, loss=0.115]Training:  45% 94/210 [08:08<09:11,  4.76s/it, loss=0.115]Training:  45% 94/210 [08:11<09:11,  4.76s/it, loss=0.65] Training:  45% 95/210 [08:11<08:24,  4.39s/it, loss=0.65]Training:  45% 95/210 [08:15<08:24,  4.39s/it, loss=0.114]Training:  46% 96/210 [08:15<08:04,  4.25s/it, loss=0.114]Training:  46% 96/210 [08:19<08:04,  4.25s/it, loss=0.341]Training:  46% 97/210 [08:19<07:48,  4.14s/it, loss=0.341]Training:  46% 97/210 [08:20<07:48,  4.14s/it, loss=0.227]Training:  47% 98/210 [08:20<06:07,  3.28s/it, loss=0.227]
+Running evaluation for step: 98, epoch: 14
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.6710s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9057 │       0.7643 │ 0.6917 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9059 │       0.7203 │ 0.6851 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9841 │       0.9643 │ 0.9417 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.2900 │       0.8039 │ 0.9539 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9900 │       0.9475 │ 0.9290 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.2900 │       0.8039 │ 0.9539 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 49 step(s) ago.
+
+Training:  47% 98/210 [08:31<06:07,  3.28s/it, loss=0.0857]Training:  47% 99/210 [08:31<10:19,  5.58s/it, loss=0.0857]Training:  47% 99/210 [08:35<10:19,  5.58s/it, loss=0.368] Training:  48% 100/210 [08:35<09:16,  5.06s/it, loss=0.368]Training:  48% 100/210 [08:39<09:16,  5.06s/it, loss=0.109]Training:  48% 101/210 [08:39<08:36,  4.74s/it, loss=0.109]Training:  48% 101/210 [08:44<08:36,  4.74s/it, loss=0.13] Training:  49% 102/210 [08:44<08:29,  4.71s/it, loss=0.13]Training:  49% 102/210 [08:47<08:29,  4.71s/it, loss=0.119]Training:  49% 103/210 [08:47<07:48,  4.38s/it, loss=0.119]Training:  49% 103/210 [08:52<07:48,  4.38s/it, loss=0.15] Training:  50% 104/210 [08:52<07:41,  4.35s/it, loss=0.15]Training:  50% 104/210 [08:53<07:41,  4.35s/it, loss=0.279]Training:  50% 105/210 [08:53<06:13,  3.56s/it, loss=0.279]
+Running evaluation for step: 105, epoch: 15
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.6560s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9563 │       0.7429 │ 0.7202 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9511 │       0.7203 │ 0.7191 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9980 │       0.9786 │ 0.9405 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1773 │       0.7942 │ 0.9053 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9979 │       0.9517 │ 0.9426 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1773 │       0.7942 │ 0.9053 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 56 step(s) ago.
+
+Training:  50% 105/210 [09:07<06:13,  3.56s/it, loss=0.115]Training:  50% 106/210 [09:07<11:15,  6.49s/it, loss=0.115]Training:  50% 106/210 [09:12<11:15,  6.49s/it, loss=0.125]Training:  51% 107/210 [09:12<10:16,  5.99s/it, loss=0.125]Training:  51% 107/210 [09:14<10:16,  5.99s/it, loss=0.102]Training:  51% 108/210 [09:14<08:29,  5.00s/it, loss=0.102]Training:  51% 108/210 [09:17<08:29,  5.00s/it, loss=0.0953]Training:  52% 109/210 [09:17<07:22,  4.38s/it, loss=0.0953]Training:  52% 109/210 [09:21<07:22,  4.38s/it, loss=0.073] Training:  52% 110/210 [09:21<06:53,  4.14s/it, loss=0.073]Training:  52% 110/210 [09:26<06:53,  4.14s/it, loss=0.301]Training:  53% 111/210 [09:26<07:29,  4.54s/it, loss=0.301]Training:  53% 111/210 [09:28<07:29,  4.54s/it, loss=0.0477]Training:  53% 112/210 [09:28<06:04,  3.71s/it, loss=0.0477]
+Running evaluation for step: 112, epoch: 16
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.6844s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9647 │       0.7714 │ 0.7000 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9621 │       0.7373 │ 0.6809 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9969 │       0.9786 │ 0.9417 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1227 │       0.8174 │ 0.9396 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9988 │       0.9531 │ 0.9426 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1227 │       0.8174 │ 0.9396 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 63 step(s) ago.
+
+Training:  53% 112/210 [09:41<06:04,  3.71s/it, loss=0.0763]Training:  54% 113/210 [09:41<10:15,  6.34s/it, loss=0.0763]Training:  54% 113/210 [09:43<10:15,  6.34s/it, loss=0.0566]Training:  54% 114/210 [09:43<08:13,  5.14s/it, loss=0.0566]Training:  54% 114/210 [09:48<08:13,  5.14s/it, loss=0.473] Training:  55% 115/210 [09:48<07:57,  5.02s/it, loss=0.473]Training:  55% 115/210 [09:50<07:57,  5.02s/it, loss=0.0821]Training:  55% 116/210 [09:50<06:45,  4.31s/it, loss=0.0821]Training:  55% 116/210 [09:53<06:45,  4.31s/it, loss=0.0874]Training:  56% 117/210 [09:53<06:09,  3.97s/it, loss=0.0874]Training:  56% 117/210 [09:56<06:09,  3.97s/it, loss=0.0293]Training:  56% 118/210 [09:56<05:16,  3.45s/it, loss=0.0293]Training:  56% 118/210 [09:57<05:16,  3.45s/it, loss=0.0581]Training:  57% 119/210 [09:57<04:19,  2.85s/it, loss=0.0581]
+Running evaluation for step: 119, epoch: 17
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.04it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]
+Evaluation took 1.6882s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9637 │       0.7393 │ 0.6952 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9609 │       0.7034 │ 0.6894 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9714 │ 0.9357 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1233 │       0.8882 │ 1.0587 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9984 │       0.9500 │ 0.9305 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1233 │       0.8882 │ 1.0587 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 70 step(s) ago.
+
+Training:  57% 119/210 [10:11<04:19,  2.85s/it, loss=0.379] Training:  57% 120/210 [10:11<09:03,  6.04s/it, loss=0.379]Training:  57% 120/210 [10:15<09:03,  6.04s/it, loss=0.114]Training:  58% 121/210 [10:15<08:02,  5.42s/it, loss=0.114]Training:  58% 121/210 [10:18<08:02,  5.42s/it, loss=0.108]Training:  58% 122/210 [10:18<06:58,  4.76s/it, loss=0.108]Training:  58% 122/210 [10:21<06:58,  4.76s/it, loss=0.143]Training:  59% 123/210 [10:21<06:20,  4.38s/it, loss=0.143]Training:  59% 123/210 [10:26<06:20,  4.38s/it, loss=0.518]Training:  59% 124/210 [10:26<06:21,  4.44s/it, loss=0.518]Training:  59% 124/210 [10:29<06:21,  4.44s/it, loss=0.0947]Training:  60% 125/210 [10:29<05:55,  4.18s/it, loss=0.0947]Training:  60% 125/210 [10:31<05:55,  4.18s/it, loss=0.0374]Training:  60% 126/210 [10:31<04:48,  3.44s/it, loss=0.0374]
+Running evaluation for step: 126, epoch: 18
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.6671s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9206 │       0.7179 │ 0.6952 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9291 │       0.6864 │ 0.6894 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9863 │       0.9643 │ 0.9321 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1993 │       0.9857 │ 1.0077 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9974 │       0.9423 │ 0.9397 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1993 │       0.9857 │ 1.0077 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 77 step(s) ago.
+
+Training:  60% 126/210 [10:43<04:48,  3.44s/it, loss=0.0266]Training:  60% 127/210 [10:43<08:23,  6.07s/it, loss=0.0266]Training:  60% 127/210 [10:47<08:23,  6.07s/it, loss=0.0604]Training:  61% 128/210 [10:47<07:24,  5.43s/it, loss=0.0604]Training:  61% 128/210 [10:51<07:24,  5.43s/it, loss=0.102] Training:  61% 129/210 [10:51<06:41,  4.96s/it, loss=0.102]Training:  61% 129/210 [10:56<06:41,  4.96s/it, loss=0.401]Training:  62% 130/210 [10:56<06:30,  4.88s/it, loss=0.401]Training:  62% 130/210 [11:00<06:30,  4.88s/it, loss=0.063]Training:  62% 131/210 [11:00<06:11,  4.70s/it, loss=0.063]Training:  62% 131/210 [11:06<06:11,  4.70s/it, loss=0.311]Training:  63% 132/210 [11:06<06:24,  4.93s/it, loss=0.311]Training:  63% 132/210 [11:08<06:24,  4.93s/it, loss=0.0453]Training:  63% 133/210 [11:08<05:17,  4.12s/it, loss=0.0453]
+Running evaluation for step: 133, epoch: 19
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]
+Evaluation took 1.7032s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9635 │       0.7571 │ 0.6810 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9584 │       0.7203 │ 0.6723 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9980 │       0.9571 │ 0.9286 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1441 │       0.9686 │ 1.1989 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9974 │       0.9449 │ 0.9254 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1441 │       0.9686 │ 1.1989 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 84 step(s) ago.
+
+Training:  63% 133/210 [11:20<05:17,  4.12s/it, loss=0.0529]Training:  64% 134/210 [11:20<08:22,  6.61s/it, loss=0.0529]Training:  64% 134/210 [11:24<08:22,  6.61s/it, loss=0.0547]Training:  64% 135/210 [11:24<07:09,  5.73s/it, loss=0.0547]Training:  64% 135/210 [11:28<07:09,  5.73s/it, loss=0.027] Training:  65% 136/210 [11:28<06:23,  5.18s/it, loss=0.027]Training:  65% 136/210 [11:32<06:23,  5.18s/it, loss=0.0539]Training:  65% 137/210 [11:32<05:50,  4.80s/it, loss=0.0539]Training:  65% 137/210 [11:35<05:50,  4.80s/it, loss=0.191] Training:  66% 138/210 [11:35<05:21,  4.47s/it, loss=0.191]Training:  66% 138/210 [11:39<05:21,  4.47s/it, loss=0.0638]Training:  66% 139/210 [11:39<04:57,  4.19s/it, loss=0.0638]Training:  66% 139/210 [11:41<04:57,  4.19s/it, loss=0.031] Training:  67% 140/210 [11:41<04:01,  3.45s/it, loss=0.031]
+Running evaluation for step: 140, epoch: 20
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.08it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.68it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.6563s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9806 │       0.7357 │ 0.6881 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9768 │       0.6949 │ 0.6894 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9857 │ 0.9452 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0677 │       1.0774 │ 1.0546 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9996 │       0.9423 │ 0.9355 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0677 │       1.0774 │ 1.0546 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 91 step(s) ago.
+
+Training:  67% 140/210 [11:54<04:01,  3.45s/it, loss=0.251]Training:  67% 141/210 [11:54<07:13,  6.28s/it, loss=0.251]Training:  67% 141/210 [11:56<07:13,  6.28s/it, loss=0.0218]Training:  68% 142/210 [11:56<05:44,  5.07s/it, loss=0.0218]Training:  68% 142/210 [12:01<05:44,  5.07s/it, loss=0.0383]Training:  68% 143/210 [12:01<05:47,  5.19s/it, loss=0.0383]Training:  68% 143/210 [12:04<05:47,  5.19s/it, loss=0.0445]Training:  69% 144/210 [12:04<05:02,  4.58s/it, loss=0.0445]Training:  69% 144/210 [12:08<05:02,  4.58s/it, loss=0.164] Training:  69% 145/210 [12:08<04:37,  4.27s/it, loss=0.164]Training:  69% 145/210 [12:13<04:37,  4.27s/it, loss=0.0933]Training:  70% 146/210 [12:13<04:42,  4.41s/it, loss=0.0933]Training:  70% 146/210 [12:15<04:42,  4.41s/it, loss=0.0437]Training:  70% 147/210 [12:15<03:49,  3.64s/it, loss=0.0437]
+Running evaluation for step: 147, epoch: 21
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.08it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.7449s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9765 │       0.7643 │ 0.6595 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9731 │       0.7203 │ 0.6468 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9571 │ 0.9500 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0938 │       1.0567 │ 1.2867 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9985 │       0.9445 │ 0.9219 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0938 │       1.0567 │ 1.2867 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 98 step(s) ago.
+
+Training:  70% 147/210 [12:27<03:49,  3.64s/it, loss=0.0408]Training:  70% 148/210 [12:27<06:31,  6.32s/it, loss=0.0408]Training:  70% 148/210 [12:30<06:31,  6.32s/it, loss=0.0165]Training:  71% 149/210 [12:30<05:25,  5.34s/it, loss=0.0165]Training:  71% 149/210 [12:36<05:25,  5.34s/it, loss=0.49]  Training:  71% 150/210 [12:36<05:25,  5.42s/it, loss=0.49]Training:  71% 150/210 [12:41<05:25,  5.42s/it, loss=0.015]Training:  72% 151/210 [12:41<05:08,  5.23s/it, loss=0.015]Training:  72% 151/210 [12:44<05:08,  5.23s/it, loss=0.275]Training:  72% 152/210 [12:44<04:34,  4.73s/it, loss=0.275]Training:  72% 152/210 [12:47<04:34,  4.73s/it, loss=0.0857]Training:  73% 153/210 [12:47<04:03,  4.27s/it, loss=0.0857]Training:  73% 153/210 [12:49<04:03,  4.27s/it, loss=0.299] Training:  73% 154/210 [12:49<03:13,  3.45s/it, loss=0.299]
+Running evaluation for step: 154, epoch: 22
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.93it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.88it/s]
+Evaluation took 1.8305s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9508 │       0.7321 │ 0.6881 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9499 │       0.6949 │ 0.6809 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9969 │       0.9857 │ 0.9381 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.1745 │       1.1748 │ 1.1481 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9967 │       0.9420 │ 0.9360 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.1745 │       1.1748 │ 1.1481 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 105 step(s) ago.
+
+Training:  73% 154/210 [13:02<03:13,  3.45s/it, loss=0.0635]Training:  74% 155/210 [13:02<05:47,  6.32s/it, loss=0.0635]Training:  74% 155/210 [13:05<05:47,  6.32s/it, loss=0.0244]Training:  74% 156/210 [13:05<04:49,  5.37s/it, loss=0.0244]Training:  74% 156/210 [13:09<04:49,  5.37s/it, loss=0.0154]Training:  75% 157/210 [13:09<04:19,  4.89s/it, loss=0.0154]Training:  75% 157/210 [13:13<04:19,  4.89s/it, loss=0.0139]Training:  75% 158/210 [13:13<03:59,  4.60s/it, loss=0.0139]Training:  75% 158/210 [13:18<03:59,  4.60s/it, loss=0.423] Training:  76% 159/210 [13:18<04:08,  4.87s/it, loss=0.423]Training:  76% 159/210 [13:21<04:08,  4.87s/it, loss=0.0169]Training:  76% 160/210 [13:21<03:37,  4.36s/it, loss=0.0169]Training:  76% 160/210 [13:22<03:37,  4.36s/it, loss=0.0481]Training:  77% 161/210 [13:22<02:43,  3.34s/it, loss=0.0481]
+Running evaluation for step: 161, epoch: 23
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.8161s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9729 │       0.7929 │ 0.6774 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9719 │       0.7542 │ 0.6681 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9951 │       0.9643 │ 0.9488 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0865 │       1.0859 │ 1.2255 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9989 │       0.9385 │ 0.9219 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0865 │       1.0859 │ 1.2255 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 112 step(s) ago.
+
+Training:  77% 161/210 [13:36<02:43,  3.34s/it, loss=0.307] Training:  77% 162/210 [13:36<05:09,  6.44s/it, loss=0.307]Training:  77% 162/210 [13:39<05:09,  6.44s/it, loss=0.0184]Training:  78% 163/210 [13:39<04:10,  5.33s/it, loss=0.0184]Training:  78% 163/210 [13:42<04:10,  5.33s/it, loss=0.00876]Training:  78% 164/210 [13:42<03:41,  4.81s/it, loss=0.00876]Training:  78% 164/210 [13:46<03:41,  4.81s/it, loss=0.0147] Training:  79% 165/210 [13:46<03:24,  4.55s/it, loss=0.0147]Training:  79% 165/210 [13:51<03:24,  4.55s/it, loss=0.0237]Training:  79% 166/210 [13:51<03:22,  4.61s/it, loss=0.0237]Training:  79% 166/210 [13:54<03:22,  4.61s/it, loss=0.0042]Training:  80% 167/210 [13:54<02:59,  4.17s/it, loss=0.0042]Training:  80% 167/210 [13:56<02:59,  4.17s/it, loss=0.00688]Training:  80% 168/210 [13:56<02:21,  3.37s/it, loss=0.00688]
+Running evaluation for step: 168, epoch: 24
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.65it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.95it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.90it/s]
+Evaluation took 1.1635s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9878 │       0.7393 │ 0.7024 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9853 │       0.7119 │ 0.6936 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9990 │       0.9786 │ 0.9405 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0548 │       1.1749 │ 1.1716 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9993 │       0.9410 │ 0.9299 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0548 │       1.1749 │ 1.1716 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 119 step(s) ago.
+
+Training:  80% 168/210 [14:07<02:21,  3.37s/it, loss=0.0755] Training:  80% 169/210 [14:07<03:58,  5.81s/it, loss=0.0755]Training:  80% 169/210 [14:12<03:58,  5.81s/it, loss=0.172] Training:  81% 170/210 [14:12<03:39,  5.49s/it, loss=0.172]Training:  81% 170/210 [14:14<03:39,  5.49s/it, loss=0.0122]Training:  81% 171/210 [14:14<02:56,  4.54s/it, loss=0.0122]Training:  81% 171/210 [14:18<02:56,  4.54s/it, loss=0.03]  Training:  82% 172/210 [14:18<02:42,  4.28s/it, loss=0.03]Training:  82% 172/210 [14:22<02:42,  4.28s/it, loss=0.0124]Training:  82% 173/210 [14:22<02:34,  4.16s/it, loss=0.0124]Training:  82% 173/210 [14:24<02:34,  4.16s/it, loss=0.0167]Training:  83% 174/210 [14:24<02:09,  3.59s/it, loss=0.0167]Training:  83% 174/210 [14:26<02:09,  3.59s/it, loss=0.0116]Training:  83% 175/210 [14:26<01:46,  3.03s/it, loss=0.0116]
+Running evaluation for step: 175, epoch: 25
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.63it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.89it/s]
+Evaluation took 1.9154s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9857 │       0.7643 │ 0.7155 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9829 │       0.7288 │ 0.7106 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9786 │ 0.9298 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0472 │       1.0402 │ 1.1188 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9996 │       0.9490 │ 0.9358 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0472 │       1.0402 │ 1.1188 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 126 step(s) ago.
+
+Training:  83% 175/210 [14:40<01:46,  3.03s/it, loss=0.0152]Training:  84% 176/210 [14:40<03:40,  6.48s/it, loss=0.0152]Training:  84% 176/210 [14:44<03:40,  6.48s/it, loss=0.168] Training:  84% 177/210 [14:44<03:00,  5.47s/it, loss=0.168]Training:  84% 177/210 [14:47<03:00,  5.47s/it, loss=0.0133]Training:  85% 178/210 [14:47<02:40,  5.01s/it, loss=0.0133]Training:  85% 178/210 [14:53<02:40,  5.01s/it, loss=0.0289]Training:  85% 179/210 [14:53<02:40,  5.17s/it, loss=0.0289]Training:  85% 179/210 [14:57<02:40,  5.17s/it, loss=0.0314]Training:  86% 180/210 [14:57<02:20,  4.69s/it, loss=0.0314]Training:  86% 180/210 [15:00<02:20,  4.69s/it, loss=0.0208]Training:  86% 181/210 [15:00<02:09,  4.45s/it, loss=0.0208]Training:  86% 181/210 [15:02<02:09,  4.45s/it, loss=0.004] Training:  87% 182/210 [15:02<01:39,  3.57s/it, loss=0.004]
+Running evaluation for step: 182, epoch: 26
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.61it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.93it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.88it/s]
+Evaluation took 1.1270s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9908 │       0.7857 │ 0.6952 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9890 │       0.7458 │ 0.6894 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9990 │       0.9500 │ 0.9560 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0403 │       1.0573 │ 1.2005 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9995 │       0.9493 │ 0.9299 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0403 │       1.0573 │ 1.2005 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 133 step(s) ago.
+
+Training:  87% 182/210 [15:16<01:39,  3.57s/it, loss=0.0104]Training:  87% 183/210 [15:16<03:04,  6.83s/it, loss=0.0104]Training:  87% 183/210 [15:21<03:04,  6.83s/it, loss=0.0288]Training:  88% 184/210 [15:21<02:38,  6.11s/it, loss=0.0288]Training:  88% 184/210 [15:23<02:38,  6.11s/it, loss=0.00652]Training:  88% 185/210 [15:23<02:03,  4.95s/it, loss=0.00652]Training:  88% 185/210 [15:28<02:03,  4.95s/it, loss=0.0232] Training:  89% 186/210 [15:28<01:57,  4.90s/it, loss=0.0232]Training:  89% 186/210 [15:32<01:57,  4.90s/it, loss=0.00275]Training:  89% 187/210 [15:32<01:45,  4.59s/it, loss=0.00275]Training:  89% 187/210 [15:35<01:45,  4.59s/it, loss=0.254]  Training:  90% 188/210 [15:35<01:33,  4.26s/it, loss=0.254]Training:  90% 188/210 [15:37<01:33,  4.26s/it, loss=0.014]Training:  90% 189/210 [15:37<01:16,  3.63s/it, loss=0.014]
+Running evaluation for step: 189, epoch: 27
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.67it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]
+Evaluation took 1.8132s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9890 │       0.7893 │ 0.7119 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9890 │       0.7627 │ 0.7021 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9990 │       0.9500 │ 0.9488 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0486 │       1.0222 │ 1.2002 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9994 │       0.9516 │ 0.9321 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0486 │       1.0222 │ 1.2002 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 140 step(s) ago.
+
+Training:  90% 189/210 [15:50<01:16,  3.63s/it, loss=0.00855]Training:  90% 190/210 [15:50<02:04,  6.24s/it, loss=0.00855]Training:  90% 190/210 [15:54<02:04,  6.24s/it, loss=0.00553]Training:  91% 191/210 [15:54<01:49,  5.75s/it, loss=0.00553]Training:  91% 191/210 [15:59<01:49,  5.75s/it, loss=0.0204] Training:  91% 192/210 [15:59<01:36,  5.38s/it, loss=0.0204]Training:  91% 192/210 [16:02<01:36,  5.38s/it, loss=0.021] Training:  92% 193/210 [16:02<01:22,  4.82s/it, loss=0.021]Training:  92% 193/210 [16:07<01:22,  4.82s/it, loss=0.0125]Training:  92% 194/210 [16:07<01:16,  4.79s/it, loss=0.0125]Training:  92% 194/210 [16:11<01:16,  4.79s/it, loss=0.0369]Training:  93% 195/210 [16:11<01:07,  4.49s/it, loss=0.0369]Training:  93% 195/210 [16:13<01:07,  4.49s/it, loss=0.00556]Training:  93% 196/210 [16:13<00:51,  3.71s/it, loss=0.00556]
+Running evaluation for step: 196, epoch: 28
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.69it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.97it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.92it/s]
+Evaluation took 1.7207s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9969 │       0.7714 │ 0.6988 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9963 │       0.7373 │ 0.6936 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9786 │ 0.9560 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0158 │       1.0157 │ 1.2144 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  1.0000 │       0.9549 │ 0.9346 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0158 │       1.0157 │ 1.2144 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 147 step(s) ago.
+
+Training:  93% 196/210 [16:26<00:51,  3.71s/it, loss=0.243]  Training:  94% 197/210 [16:26<01:23,  6.45s/it, loss=0.243]Training:  94% 197/210 [16:30<01:23,  6.45s/it, loss=0.00449]Training:  94% 198/210 [16:30<01:08,  5.72s/it, loss=0.00449]Training:  94% 198/210 [16:34<01:08,  5.72s/it, loss=0.0162] Training:  95% 199/210 [16:34<00:59,  5.43s/it, loss=0.0162]Training:  95% 199/210 [16:37<00:59,  5.43s/it, loss=0.0321]Training:  95% 200/210 [16:37<00:46,  4.67s/it, loss=0.0321]Training:  95% 200/210 [16:39<00:46,  4.67s/it, loss=0.0241]Training:  96% 201/210 [16:39<00:35,  3.94s/it, loss=0.0241]Training:  96% 201/210 [16:42<00:35,  3.94s/it, loss=0.00526]Training:  96% 202/210 [16:42<00:27,  3.43s/it, loss=0.00526]Training:  96% 202/210 [16:43<00:27,  3.43s/it, loss=0.117]  Training:  97% 203/210 [16:43<00:19,  2.77s/it, loss=0.117]
+Running evaluation for step: 203, epoch: 29
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.07it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.62it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.94it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.88it/s]
+Evaluation took 1.7962s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9761 │       0.7536 │ 0.6964 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9780 │       0.7288 │ 0.6979 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  0.9990 │       0.9714 │ 0.9500 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0633 │       1.1153 │ 1.3121 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  0.9997 │       0.9491 │ 0.9312 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0633 │       1.1153 │ 1.3121 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 154 step(s) ago.
+
+Training:  97% 203/210 [16:57<00:19,  2.77s/it, loss=0.00615]Training:  97% 204/210 [16:57<00:36,  6.03s/it, loss=0.00615]Training:  97% 204/210 [16:59<00:36,  6.03s/it, loss=0.00388]Training:  98% 205/210 [16:59<00:24,  4.90s/it, loss=0.00388]Training:  98% 205/210 [17:02<00:24,  4.90s/it, loss=0.00228]Training:  98% 206/210 [17:02<00:17,  4.26s/it, loss=0.00228]Training:  98% 206/210 [17:06<00:17,  4.26s/it, loss=0.023]  Training:  99% 207/210 [17:06<00:13,  4.38s/it, loss=0.023]Training:  99% 207/210 [17:11<00:13,  4.38s/it, loss=0.00129]Training:  99% 208/210 [17:11<00:08,  4.50s/it, loss=0.00129]Training:  99% 208/210 [17:15<00:08,  4.50s/it, loss=0.0177] Training: 100% 209/210 [17:15<00:04,  4.18s/it, loss=0.0177]Training: 100% 209/210 [17:16<00:04,  4.18s/it, loss=0.00307]Training: 100% 210/210 [17:16<00:00,  3.39s/it, loss=0.00307]
+Running evaluation for step: 210, epoch: 30
+Evaluation valid:   0% 0/1 [00:00<?, ?it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.06it/s]Evaluation valid: 100% 1/1 [00:00<00:00,  3.05it/s]
+Evaluation test :   0% 0/2 [00:00<?, ?it/s]Evaluation test :  50% 1/2 [00:00<00:00,  2.67it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.96it/s]Evaluation test : 100% 2/2 [00:00<00:00,  2.91it/s]
+Evaluation took 1.7710s
+
+╒════════════════╤═════════╤══════════════╤════════╕
+│                │   train │   validation │   test │
+╞════════════════╪═════════╪══════════════╪════════╡
+│ accuracy       │  0.9980 │       0.7929 │ 0.6917 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ accuracy_micro │  0.9976 │       0.7627 │ 0.6809 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ hits_at_k      │  1.0000 │       0.9714 │ 0.9417 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ loss           │  0.0082 │       1.1178 │ 1.3484 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ roc_auc        │  1.0000 │       0.9502 │ 0.9326 │
+├────────────────┼─────────┼──────────────┼────────┤
+│ combined_loss  │  0.0082 │       1.1178 │ 1.3484 │
+╘════════════════╧═════════╧══════════════╧════════╛
+Last improvement of label validation loss happened 161 step(s) ago.
+
+Training: 100% 210/210 [17:28<00:00,  4.99s/it, loss=0.00307]
+
+╒═════════════════╕
+│ TRAINING REPORT │
+╘═════════════════╛
+
+╒══════════════════════════════╤════════════════════╕
+│ Validation feature           │ label              │
+├──────────────────────────────┼────────────────────┤
+│ Validation metric            │ loss               │
+├──────────────────────────────┼────────────────────┤
+│ Best model step              │ 49                 │
+├──────────────────────────────┼────────────────────┤
+│ Best model epoch             │ 8                  │
+├──────────────────────────────┼────────────────────┤
+│ Best model's validation loss │ 0.7072092890739441 │
+├──────────────────────────────┼────────────────────┤
+│ Best model's test loss       │ 0.8800588250160217 │
+╘══════════════════════════════╧════════════════════╛
+
+Finished: experiment_run
+Saved to: /share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/results/experiment_run
+
+╒══════════╕
+│ FINISHED │
+╘══════════╛
+
+Evaluation:   0% 0/2 [00:00<?, ?it/s]Evaluation:  50% 1/2 [00:00<00:00,  2.24it/s]Evaluation: 100% 2/2 [00:00<00:00,  2.72it/s]Evaluation: 100% 2/2 [00:00<00:00,  2.63it/s]
+
+===== label =====
+accuracy: 0.6416666507720947
+accuracy_micro: 0.6255319118499756
+hits_at_k: 0.9321428537368774
+loss: 0.8800588250160217
+overall_stats: { 'avg_f1_score_macro': 0.6550714276904753,
+  'avg_f1_score_micro': 0.625531914893617,
+  'avg_f1_score_weighted': 0.6288726770996275,
+  'avg_precision_macro': 0.6749607380095186,
+  'avg_precision_micro': 0.625531914893617,
+  'avg_precision_weighted': 0.625531914893617,
+  'avg_recall_macro': 0.6416666666666667,
+  'avg_recall_micro': 0.625531914893617,
+  'avg_recall_weighted': 0.625531914893617,
+  'kappa_score': 0.5549817086292231,
+  'token_accuracy': 0.625531914893617}
+per_class_stats: {bkl: {   'accuracy': 0.8212765957446808,
+    'f1_score': 0.5333333333333332,
+    'fall_out': 0.1333333333333333,
+    'false_discovery_rate': 0.52,
+    'false_negative_rate': 0.4,
+    'false_negatives': 16,
+    'false_omission_rate': 0.08648648648648649,
+    'false_positive_rate': 0.1333333333333333,
+    'false_positives': 26,
+    'hit_rate': 0.6,
+    'informedness': 0.4666666666666668,
+    'markedness': 0.3935135135135135,
+    'matthews_correlation_coefficient': 0.42853195871444594,
+    'miss_rate': 0.4,
+    'negative_predictive_value': 0.9135135135135135,
+    'positive_predictive_value': 0.48,
+    'precision': 0.48,
+    'recall': 0.6,
+    'sensitivity': 0.6,
+    'specificity': 0.8666666666666667,
+    'true_negative_rate': 0.8666666666666667,
+    'true_negatives': 169,
+    'true_positive_rate': 0.6,
+    'true_positives': 24},
+  akiec: {   'accuracy': 0.851063829787234,
+    'f1_score': 0.5454545454545455,
+    'fall_out': 0.08205128205128209,
+    'false_discovery_rate': 0.43243243243243246,
+    'false_negative_rate': 0.475,
+    'false_negatives': 19,
+    'false_omission_rate': 0.09595959595959591,
+    'false_positive_rate': 0.08205128205128209,
+    'false_positives': 16,
+    'hit_rate': 0.525,
+    'informedness': 0.44294871794871793,
+    'markedness': 0.4716079716079715,
+    'matthews_correlation_coefficient': 0.4570537675133489,
+    'miss_rate': 0.475,
+    'negative_predictive_value': 0.9040404040404041,
+    'positive_predictive_value': 0.5675675675675675,
+    'precision': 0.5675675675675675,
+    'recall': 0.525,
+    'sensitivity': 0.525,
+    'specificity': 0.9179487179487179,
+    'true_negative_rate': 0.9179487179487179,
+    'true_negatives': 179,
+    'true_positive_rate': 0.525,
+    'true_positives': 21},
+  mel: {   'accuracy': 0.8297872340425532,
+    'f1_score': 0.48717948717948717,
+    'fall_out': 0.09743589743589742,
+    'false_discovery_rate': 0.5,
+    'false_negative_rate': 0.525,
+    'false_negatives': 21,
+    'false_omission_rate': 0.10659898477157359,
+    'false_positive_rate': 0.09743589743589742,
+    'false_positives': 19,
+    'hit_rate': 0.475,
+    'informedness': 0.37756410256410255,
+    'markedness': 0.3934010152284264,
+    'matthews_correlation_coefficient': 0.385401221148205,
+    'miss_rate': 0.525,
+    'negative_predictive_value': 0.8934010152284264,
+    'positive_predictive_value': 0.5,
+    'precision': 0.5,
+    'recall': 0.475,
+    'sensitivity': 0.475,
+    'specificity': 0.9025641025641026,
+    'true_negative_rate': 0.9025641025641026,
+    'true_negatives': 176,
+    'true_positive_rate': 0.475,
+    'true_positives': 19},
+  bcc: {   'accuracy': 0.8936170212765957,
+    'f1_score': 0.6913580246913581,
+    'fall_out': 0.06666666666666665,
+    'false_discovery_rate': 0.31707317073170727,
+    'false_negative_rate': 0.30000000000000004,
+    'false_negatives': 12,
+    'false_omission_rate': 0.061855670103092786,
+    'false_positive_rate': 0.06666666666666665,
+    'false_positives': 13,
+    'hit_rate': 0.7,
+    'informedness': 0.6333333333333333,
+    'markedness': 0.6210711591651998,
+    'matthews_correlation_coefficient': 0.6271722789403986,
+    'miss_rate': 0.30000000000000004,
+    'negative_predictive_value': 0.9381443298969072,
+    'positive_predictive_value': 0.6829268292682927,
+    'precision': 0.6829268292682927,
+    'recall': 0.7,
+    'sensitivity': 0.7,
+    'specificity': 0.9333333333333333,
+    'true_negative_rate': 0.9333333333333333,
+    'true_negatives': 182,
+    'true_positive_rate': 0.7,
+    'true_positives': 28},
+  nv: {   'accuracy': 0.9063829787234042,
+    'f1_score': 0.7250000000000001,
+    'fall_out': 0.05641025641025643,
+    'false_discovery_rate': 0.275,
+    'false_negative_rate': 0.275,
+    'false_negatives': 11,
+    'false_omission_rate': 0.05641025641025643,
+    'false_positive_rate': 0.05641025641025643,
+    'false_positives': 11,
+    'hit_rate': 0.725,
+    'informedness': 0.6685897435897434,
+    'markedness': 0.6685897435897434,
+    'matthews_correlation_coefficient': 0.6685897435897435,
+    'miss_rate': 0.275,
+    'negative_predictive_value': 0.9435897435897436,
+    'positive_predictive_value': 0.725,
+    'precision': 0.725,
+    'recall': 0.725,
+    'sensitivity': 0.725,
+    'specificity': 0.9435897435897436,
+    'true_negative_rate': 0.9435897435897436,
+    'true_negatives': 184,
+    'true_positive_rate': 0.725,
+    'true_positives': 29},
+  vasc: {   'accuracy': 0.9829787234042553,
+    'f1_score': 0.888888888888889,
+    'fall_out': 0.0,
+    'false_discovery_rate': 0.0,
+    'false_negative_rate': 0.19999999999999996,
+    'false_negatives': 4,
+    'false_omission_rate': 0.0182648401826484,
+    'false_positive_rate': 0.0,
+    'false_positives': 0,
+    'hit_rate': 0.8,
+    'informedness': 0.8,
+    'markedness': 0.9817351598173516,
+    'matthews_correlation_coefficient': 0.8862212634855254,
+    'miss_rate': 0.19999999999999996,
+    'negative_predictive_value': 0.9817351598173516,
+    'positive_predictive_value': 1.0,
+    'precision': 1.0,
+    'recall': 0.8,
+    'sensitivity': 0.8,
+    'specificity': 1.0,
+    'true_negative_rate': 1.0,
+    'true_negatives': 215,
+    'true_positive_rate': 0.8,
+    'true_positives': 16},
+  df: {   'accuracy': 0.9659574468085106,
+    'f1_score': 0.7142857142857142,
+    'fall_out': 0.013636363636363669,
+    'false_discovery_rate': 0.23076923076923073,
+    'false_negative_rate': 0.33333333333333337,
+    'false_negatives': 5,
+    'false_omission_rate': 0.022522522522522515,
+    'false_positive_rate': 0.013636363636363669,
+    'false_positives': 3,
+    'hit_rate': 0.6666666666666666,
+    'informedness': 0.6530303030303028,
+    'markedness': 0.7467082467082466,
+    'matthews_correlation_coefficient': 0.6983001594036139,
+    'miss_rate': 0.33333333333333337,
+    'negative_predictive_value': 0.9774774774774775,
+    'positive_predictive_value': 0.7692307692307693,
+    'precision': 0.7692307692307693,
+    'recall': 0.6666666666666666,
+    'sensitivity': 0.6666666666666666,
+    'specificity': 0.9863636363636363,
+    'true_negative_rate': 0.9863636363636363,
+    'true_negatives': 217,
+    'true_positive_rate': 0.6666666666666666,
+    'true_positives': 10}}
+roc_auc: 0.927157998085022
+Saved to: /share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/results/experiment_run
+LudwigDirectBackend: Experiment completed. Results in results
+Workflow completed successfully.
+Converted Parquet to CSV: results/experiment_run/predictions.csv
+Converted Parquet to CSV.
+Generating Ludwig visualizations (train/val + test)…
+Ludwig visualizations registry not available; train/test PNGs will be skipped.
+Added 5 train/val diagnostic plots
+Generated 2 interactive Plotly plots
+Added multi-class per-class metric plots to test tab
+Added test prediction confidence plot
+HTML report generated at: /share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/image_classification_results_report.html
+HTML report generated at: /share/lab_goecks/paulo/gleam_use_cases/image_learner/experiment/original_experiment/image_classification_results_report.html
+Cleaning up temp directory: results/gleam_image_work_tbxce7uh
+Main script finished successfully.

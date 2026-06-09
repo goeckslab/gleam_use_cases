@@ -1,0 +1,71 @@
+{
+    "checksum": "mHeFVERCP3WR5UK3mwr6iA==",
+    "data_train_hdf5_fp": "results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.training.hdf5",
+    "dataset_src": "results/gleam_image_work_tbxce7uh/processed_data_for_ludwig.csv",
+    "image_path": {
+        "preprocessing": {
+            "channel_class_map": [],
+            "computed_fill_value": null,
+            "fill_value": null,
+            "height": 450,
+            "in_memory": true,
+            "infer_image_dimensions": true,
+            "infer_image_max_height": 450,
+            "infer_image_max_width": 600,
+            "infer_image_num_channels": true,
+            "infer_image_num_classes": false,
+            "infer_image_sample_size": 100,
+            "missing_value_strategy": "bfill",
+            "num_channels": 3,
+            "num_classes": 0,
+            "num_processes": 1,
+            "requires_equal_dimensions": false,
+            "resize_method": "interpolate",
+            "standardize_image": "imagenet1k",
+            "width": 600
+        },
+        "reshape": [
+            3,
+            450,
+            600
+        ]
+    },
+    "label": {
+        "idx2str": [
+            "bkl",
+            "akiec",
+            "mel",
+            "bcc",
+            "nv",
+            "vasc",
+            "df"
+        ],
+        "preprocessing": {
+            "cache_encoder_embeddings": false,
+            "computed_fill_value": "<UNK>",
+            "fill_value": "<UNK>",
+            "lowercase": false,
+            "missing_value_strategy": "drop_row",
+            "most_common": 10000
+        },
+        "str2freq": {
+            "akiec": 200,
+            "bcc": 200,
+            "bkl": 200,
+            "df": 73,
+            "mel": 200,
+            "nv": 200,
+            "vasc": 98
+        },
+        "str2idx": {
+            "akiec": 1,
+            "bcc": 3,
+            "bkl": 0,
+            "df": 6,
+            "mel": 2,
+            "nv": 4,
+            "vasc": 5
+        },
+        "vocab_size": 7
+    }
+}

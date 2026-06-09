@@ -1,0 +1,42 @@
+INFO:__main__:Model kwargs: {'train_size': None, 'normalize': None, 'feature_selection': None, 'cross_validation': True, 'cross_validation_folds': 10, 'remove_outliers': None, 'remove_multicollinearity': None, 'polynomial_features': None, 'feature_interaction': None, 'feature_ratio': None, 'fix_imbalance': None, 'tune_model': False, 'n_jobs': 1, 'probability_threshold': None, 'threshold_mode': 'auto', 'threshold_metric': 'F1', 'best_model_metric': 'Accuracy', 'sample_id_column': None}
+INFO:__main__:Model kwargs 2: {'cross_validation': True, 'cross_validation_folds': 10, 'tune_model': False, 'n_jobs': 1, 'threshold_mode': 'auto', 'threshold_metric': 'F1', 'best_model_metric': 'Accuracy'}
+INFO:base_model_trainer:Model kwargs: {'exp': None, 'input_file': '../../loris_processed/Chowell_train.tsv', 'target_col': '22', 'output_dir': '.', 'task_type': 'classification', 'random_seed': 42, 'data': None, 'target': None, 'best_model': None, 'results': None, 'tuning_results': None, 'features_name': None, 'plot_feature_names': None, 'plots': {}, 'explainer_plots': {}, 'plots_explainer_html': None, 'skipped_plot_notes': {}, 'explainer_scope': None, 'explainer_dashboard_importance_skipped': False, 'trees': [], 'user_kwargs': {'cross_validation': True, 'cross_validation_folds': 10, 'tune_model': False, 'n_jobs': 1, 'threshold_mode': 'auto', 'threshold_metric': 'F1', 'best_model_metric': 'Accuracy'}, 'cross_validation': True, 'cross_validation_folds': 10, 'tune_model': False, 'n_jobs': 1, 'threshold_mode': 'auto', 'threshold_metric': 'F1', 'best_model_metric': 'Accuracy', 'plot_feature_limit': 30, '_shap_row_cap': 200, 'imputed_training_data': None, '_best_model_metric_used': None, 'threshold_metadata': None, '_threshold_cv_predictions': None, 'cv_fold_adjustment': None, 'setup_params': {}, 'test_file': '../../loris_processed/Chowell_test.tsv', 'test_data': None}
+INFO:base_model_trainer:Loading data from ../../loris_processed/Chowell_train.tsv
+INFO:base_model_trainer:Original dataset columns: ['TMB', 'Systemic_therapy_history', 'Albumin', 'NLR', 'Age', 'CancerType1', 'CancerType2', 'CancerType3', 'CancerType4', 'CancerType5', 'CancerType6', 'CancerType7', 'CancerType8', 'CancerType9', 'CancerType10', 'CancerType11', 'CancerType12', 'CancerType13', 'CancerType14', 'CancerType15', 'CancerType16', 'Response']
+INFO:base_model_trainer:Dataset columns after processing: ['TMB', 'Systemic_therapy_history', 'Albumin', 'NLR', 'Age', 'CancerType1', 'CancerType2', 'CancerType3', 'CancerType4', 'CancerType5', 'CancerType6', 'CancerType7', 'CancerType8', 'CancerType9', 'CancerType10', 'CancerType11', 'CancerType12', 'CancerType13', 'CancerType14', 'CancerType15', 'CancerType16', 'Response']
+INFO:base_model_trainer:Loading test data from ../../loris_processed/Chowell_test.tsv
+INFO:base_model_trainer:Feature plotting limit not needed (21 features <= limit 30).
+INFO:base_model_trainer:Initializing PyCaret
+INFO:base_model_trainer:{'target': 'Response', 'session_id': 42, 'html': True, 'log_experiment': False, 'system_log': False, 'index': False, 'test_data':       TMB  ...  Response
+0    32.5  ...         1
+1    19.3  ...         1
+2    10.5  ...         1
+3     3.5  ...         0
+4    32.5  ...         1
+..    ...  ...       ...
+510   1.8  ...         0
+511   2.6  ...         0
+512   4.4  ...         0
+513   2.6  ...         0
+514   8.8  ...         0
+
+[515 rows x 22 columns], 'n_jobs': 1, 'fold': 10}
+INFO:base_model_trainer:Captured imputed training dataset from PyCaret (1479 rows, 21 features).
+INFO:base_model_trainer:Training and selecting the best model
+INFO:base_model_trainer:Ranking models using metric: Accuracy
+INFO:base_model_trainer:compare_models kwargs: {'cross_validation': True, 'fold': 10, 'sort': 'Accuracy'}
+Processing:   0%|          | 0/65 [00:00<?, ?it/s]Processing:   8%|▊         | 5/65 [00:00<00:08,  7.16it/s]Processing:  11%|█         | 7/65 [00:00<00:06,  9.01it/s]Processing:  14%|█▍        | 9/65 [00:01<00:07,  7.89it/s]Processing:  17%|█▋        | 11/65 [00:01<00:05,  9.75it/s]Processing:  20%|██        | 13/65 [00:01<00:04, 10.56it/s]Processing:  26%|██▌       | 17/65 [00:01<00:03, 12.18it/s]Processing:  32%|███▏      | 21/65 [00:01<00:03, 13.23it/s]Processing:  38%|███▊      | 25/65 [00:02<00:02, 14.40it/s]Processing:  45%|████▍     | 29/65 [00:03<00:06,  5.52it/s]Processing:  48%|████▊     | 31/65 [00:03<00:05,  6.34it/s]Processing:  51%|█████     | 33/65 [00:04<00:04,  7.11it/s]Processing:  57%|█████▋    | 37/65 [00:04<00:04,  5.69it/s]Processing:  63%|██████▎   | 41/65 [00:06<00:05,  4.32it/s]Processing:  69%|██████▉   | 45/65 [00:06<00:03,  5.70it/s]Processing:  75%|███████▌  | 49/65 [00:07<00:03,  4.55it/s]Processing:  82%|████████▏ | 53/65 [00:08<00:02,  4.43it/s]Processing:  85%|████████▍ | 55/65 [00:08<00:01,  5.16it/s]Processing:  88%|████████▊ | 57/65 [00:09<00:01,  5.04it/s]Processing:  94%|█████████▍| 61/65 [00:09<00:00,  7.00it/s]Processing: 100%|██████████| 65/65 [00:09<00:00,  9.07it/s]                                                           INFO:base_model_trainer:Optimized binary decision threshold using F1: 0.259801 (validation score 0.533516)
+INFO:pycaret_classification:Generating and saving plots
+WARNING:pycaret_classification:Could not generate optional PyCaret plot calibration: 'NoneType' object has no attribute 'get_figure'
+INFO:pycaret_classification:Generating explainer plots
+INFO:explainability_limits:ClassifierExplainer limited to 200 of 515 rows.
+INFO:pycaret_classification:Skipping ExplainerDashboard SHAP/permutation importance; custom model-specific SHAP is generated once in Feature Importance.
+INFO:base_model_trainer:Generating tree plots
+INFO:base_model_trainer:Skipping decision-tree explainer plots for unsupported model type LogisticRegression.
+INFO:base_model_trainer:Saving HTML report
+INFO:base_model_trainer:Best model determined as: Logistic Regression
+INFO:feature_importance:Using provided experiment object
+INFO:explainability_limits:Custom SHAP limited to 200 of 515 rows.
+INFO:feature_importance:SHAP summary completed with 200 rows and 21 features (displaying top 21) across 1 output(s).
+INFO:feature_importance:Generating HTML report
+INFO:base_model_trainer:HTML report generated at: ./comparison_result.html

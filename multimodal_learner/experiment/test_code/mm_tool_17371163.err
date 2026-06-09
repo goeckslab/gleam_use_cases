@@ -1,0 +1,220 @@
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/autogluon/multimodal/data/templates.py:16: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+10:18:54 | INFO | === AutoGluon Training Wrapper Started ===
+10:18:54 | INFO | Working directory: /share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code
+10:18:54 | INFO | Command line: /share/lab_goecks/paulo/gleam/tools/multimodallearner/multimodal_learner.py --input_csv_train ../../3gb_dataset/HANCOCK_train_split_3GB_jpeg.csv --input_csv_test ../../3gb_dataset/HANCOCK_test_split_3GB_jpeg.csv --images_zip ../../3gb_dataset/CD3_CD8_images_3GB_jpeg.zip --target_column target --sample_id_column patient_id --backbone_image caformer_b36.sail_in22k_ft_in1k --backbone_text google/electra-base-discriminator --missing_image_strategy false --output_json results.json --output_html report.html --output_config config.yaml --output_model_archive trained_model.zip --preset medium_quality --eval_metric roc_auc --random_seed 42 --threshold_metric auto
+10:18:54 | INFO | Parsed args: {'train_dataset': '../../3gb_dataset/HANCOCK_train_split_3GB_jpeg.csv', 'test_dataset': '../../3gb_dataset/HANCOCK_test_split_3GB_jpeg.csv', 'target_column': 'target', 'output_json': 'results.json', 'output_html': 'report.html', 'output_config': 'config.yaml', 'output_model_archive': 'trained_model.zip', 'images_zip': ['../../3gb_dataset/CD3_CD8_images_3GB_jpeg.zip'], 'missing_image_strategy': 'false', 'threshold': None, 'time_limit': None, 'deterministic': False, 'random_seed': 42, 'cross_validation': 'false', 'num_folds': 5, 'epochs': None, 'learning_rate': None, 'batch_size': None, 'num_workers': None, 'num_workers_eval': None, 'backbone_image': 'caformer_b36.sail_in22k_ft_in1k', 'backbone_text': 'google/electra-base-discriminator', 'threshold_metric': 'auto', 'validation_size': 0.2, 'split_probabilities': [0.7, 0.1, 0.2], 'sample_id_column': 'patient_id', 'preset': 'medium_quality', 'eval_metric': 'roc_auc', 'hyperparameters': None}
+10:18:54 | INFO | Cache dirs: TORCH_HOME=None HF_HOME=/share/lab_goecks/paulo/hf_cache HUGGINGFACE_HUB_CACHE=/share/lab_goecks/paulo/hf_cache/hub
+10:18:54 | INFO | Loading tabular dataset as CSV: ../../3gb_dataset/HANCOCK_train_split_3GB_jpeg.csv
+10:18:54 | INFO | Loading tabular dataset as CSV: ../../3gb_dataset/HANCOCK_test_split_3GB_jpeg.csv
+10:18:54 | INFO | Train dataset loaded: 520 rows
+10:18:54 | INFO | Test dataset loaded: 133 rows
+10:18:54 | INFO | Extracting 1 image ZIP(s) to /tmp/4475918/ag_tmp_fixed/autogluon_images_k0esbvcy
+10:19:07 | INFO | Extracted CD3_CD8_images_3GB_jpeg.zip
+10:19:07 | INFO | Inferred image columns: ['CD3_image_path', 'CD8_image_path']
+10:19:07 | INFO | After cleanup → train: 520, test: 133
+10:19:07 | INFO | External test set → created val split (20%)
+10:19:07 | INFO | Final split distribution:
+split
+train    415
+val      105
+Name: count, dtype: int64
+10:19:07 | INFO | Preprocessing complete — ready for AutoGluon training!
+10:19:07 | INFO | Final split counts:
+split
+train    415
+val      105
+Name: count, dtype: int64
+10:19:07 | INFO | Using default training num_workers=8 (heuristic).
+10:19:07 | INFO | Using default inference num_workers=8 (heuristic).
+10:19:07 | INFO | Auto-detected GPU count=1; setting num_gpus=1.
+10:19:07 | INFO | AutoGluon config prepared: fit={'seed': 42, 'presets': 'medium_quality'}, hyperparameters keys=['env', 'model', 'env.num_workers', 'env.num_workers_inference', 'env.num_gpus', 'model.timm_image.checkpoint_name', 'model.hf_text.checkpoint_name']
+10:19:07 | INFO | Fitting AutoGluon with 415 train / 105 val rows (internal test rows: 0, external test provided: True)
+No path specified. Models will be saved in: "AutogluonModels/ag-20260609_141907"
+=================== System Info ===================
+AutoGluon Version:  1.4.0
+Python Version:     3.10.18
+Operating System:   Linux
+Platform Machine:   x86_64
+Platform Version:   #1 SMP Tue Aug 12 13:09:16 EDT 2025
+CPU Count:          2
+Pytorch Version:    2.7.1+cu126
+CUDA Version:       12.6
+GPU Count:          1
+Memory Avail:       943.01 GB / 1007.49 GB (93.6%)
+Disk Space Avail:   7098.87 GB / 20480.00 GB (34.7%)
+===================================================
+AutoGluon infers your prediction problem is: 'binary' (because only two unique label-values observed).
+	2 unique label values:  [np.int64(0), np.int64(1)]
+	If 'binary' is not the correct problem_type, please manually specify the problem_type parameter during Predictor init (You may specify problem_type as one of: ['binary', 'multiclass', 'regression', 'quantile'])
+
+AutoMM starts to create your model. ✨✨✨
+
+To track the learning progress, you can open a terminal and launch Tensorboard:
+    ```shell
+    # Assume you have installed tensorboard
+    tensorboard --logdir /share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907
+    ```
+
+[rank: 0] Seed set to 42
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+10:19:12 | INFO | Loading pretrained weights from Hugging Face hub (timm/caformer_b36.sail_in22k_ft_in1k)
+10:19:12 | INFO | [timm/caformer_b36.sail_in22k_ft_in1k] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+10:19:13 | INFO | Missing keys (head.fc.fc2.weight, head.fc.fc2.bias) discovered while loading pretrained weights. This is expected if model is being adapted.
+GPU Count: 1
+GPU Count to be Used: 1
+GPU 0 Name: NVIDIA A30
+GPU 0 Memory: 0.4GB/24.0GB (Used/Total)
+
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/lightning/pytorch/utilities/model_summary/model_summary.py:231: Precision 16-mixed is not supported by the model summary.  Estimated model size in MB will not be accurate. Using 32 bits instead.
+
+  | Name              | Type                | Params | Mode 
+------------------------------------------------------------------
+0 | model             | MultimodalFusionMLP | 207 M  | train
+1 | validation_metric | BinaryAUROC         | 0      | train
+2 | loss_func         | CrossEntropyLoss    | 0      | train
+------------------------------------------------------------------
+207 M     Trainable params
+0         Non-trainable params
+207 M     Total params
+828.325   Total estimated model params size (MB)
+1171      Modules in train mode
+0         Modules in eval mode
+SLURM auto-requeueing enabled. Setting signal handlers.
+Epoch 0, global step 1: 'val_roc_auc' reached 0.55382 (best 0.55382), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=0-step=1.ckpt' as top 3
+Epoch 0, global step 4: 'val_roc_auc' reached 0.57370 (best 0.57370), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=0-step=4.ckpt' as top 3
+Epoch 1, global step 5: 'val_roc_auc' reached 0.64581 (best 0.64581), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=1-step=5.ckpt' as top 3
+Epoch 1, global step 8: 'val_roc_auc' reached 0.59756 (best 0.64581), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=1-step=8.ckpt' as top 3
+Epoch 2, global step 9: 'val_roc_auc' was not in top 3
+Epoch 2, global step 12: 'val_roc_auc' reached 0.69406 (best 0.69406), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=2-step=12.ckpt' as top 3
+Epoch 3, global step 13: 'val_roc_auc' was not in top 3
+Epoch 3, global step 16: 'val_roc_auc' reached 0.73383 (best 0.73383), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=3-step=16.ckpt' as top 3
+Epoch 4, global step 17: 'val_roc_auc' reached 0.73462 (best 0.73462), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=4-step=17.ckpt' as top 3
+Epoch 4, global step 20: 'val_roc_auc' reached 0.74311 (best 0.74311), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=4-step=20.ckpt' as top 3
+Epoch 5, global step 21: 'val_roc_auc' reached 0.78155 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=5-step=21.ckpt' as top 3
+Epoch 5, global step 24: 'val_roc_auc' was not in top 3
+Epoch 6, global step 25: 'val_roc_auc' was not in top 3
+Epoch 6, global step 28: 'val_roc_auc' reached 0.74311 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=6-step=28.ckpt' as top 3
+Epoch 7, global step 29: 'val_roc_auc' reached 0.74867 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=7-step=29.ckpt' as top 3
+Epoch 7, global step 32: 'val_roc_auc' reached 0.75027 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=7-step=32.ckpt' as top 3
+Epoch 8, global step 33: 'val_roc_auc' reached 0.74973 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=8-step=33.ckpt' as top 3
+Epoch 8, global step 36: 'val_roc_auc' was not in top 3
+Epoch 9, global step 37: 'val_roc_auc' reached 0.77200 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=9-step=37.ckpt' as top 3
+Epoch 9, global step 40: 'val_roc_auc' reached 0.77969 (best 0.78155), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=9-step=40.ckpt' as top 3
+Epoch 10, global step 41: 'val_roc_auc' reached 0.78208 (best 0.78208), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=10-step=41.ckpt' as top 3
+Epoch 10, global step 44: 'val_roc_auc' reached 0.78420 (best 0.78420), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=10-step=44.ckpt' as top 3
+Epoch 11, global step 45: 'val_roc_auc' reached 0.78579 (best 0.78579), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=11-step=45.ckpt' as top 3
+Epoch 11, global step 48: 'val_roc_auc' reached 0.78420 (best 0.78579), saving model to '/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907/epoch=11-step=48.ckpt' as top 3
+Epoch 12, global step 49: 'val_roc_auc' was not in top 3
+Epoch 12, global step 52: 'val_roc_auc' was not in top 3
+Epoch 13, global step 53: 'val_roc_auc' was not in top 3
+Epoch 13, global step 56: 'val_roc_auc' was not in top 3
+Epoch 14, global step 57: 'val_roc_auc' was not in top 3
+Epoch 14, global step 60: 'val_roc_auc' was not in top 3
+Epoch 15, global step 61: 'val_roc_auc' was not in top 3
+Epoch 15, global step 64: 'val_roc_auc' was not in top 3
+Epoch 16, global step 65: 'val_roc_auc' was not in top 3
+Start to fuse 3 checkpoints via the greedy soup algorithm.
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+AutoMM has created your model. 🎉🎉🎉
+
+To load the model, use the code below:
+    ```python
+    from autogluon.multimodal import MultiModalPredictor
+    predictor = MultiModalPredictor.load("/share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907")
+    ```
+
+If you are not satisfied with the model, try to increase the training time, 
+adjust the hyperparameters (https://auto.gluon.ai/stable/tutorials/multimodal/advanced_topics/customization.html),
+or post issues on GitHub (https://github.com/autogluon/autogluon/issues).
+
+
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+11:23:52 | INFO | AutoGluon training finished. Model path: /share/lab_goecks/paulo/gleam_use_cases/multimodal_learner/experiment/test_code/AutogluonModels/ag-20260609_141907
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+11:28:45 | INFO | Here's the model summary:The model achieved score '0.7773064374923706' on the validation metric 'roc_auc'. The total training time is 1:04:19.436560
+11:28:45 | INFO | Evaluation complete; splits: ['Train', 'Validation', 'Test']
+11:28:45 | INFO | Transparent metrics by split: {'Train': OrderedDict([('Accuracy', 0.7493975903614458), ('Precision', 0.44274809160305345), ('Recall_(Sensitivity/TPR)', 0.651685393258427), ('F1-Score', 0.5272727272727272), ('Specificity_(TNR)', 0.7760736196319018), ('ROC-AUC', 0.7993554835596608), ('PR-AUC', 0.6107914030516415), ('LogLoss', 0.4078311537488369), ('MCC', 0.37775320209765173)]), 'Validation': OrderedDict([('Accuracy', 0.7428571428571429), ('Precision', 0.45), ('Recall_(Sensitivity/TPR)', 0.782608695652174), ('F1-Score', 0.5714285714285714), ('Specificity_(TNR)', 0.7317073170731707), ('ROC-AUC', 0.7857900318133615), ('PR-AUC', 0.6283657502350465), ('LogLoss', 0.42462611814588525), ('MCC', 0.4380404496353769)]), 'Test': OrderedDict([('Accuracy', 0.7218045112781954), ('Precision', 0.46153846153846156), ('Recall_(Sensitivity/TPR)', 0.7272727272727273), ('F1-Score', 0.5647058823529412), ('Specificity_(TNR)', 0.72), ('ROC-AUC', 0.7636363636363637), ('PR-AUC', 0.7004760882061591), ('LogLoss', 0.4240941996908118), ('MCC', 0.3958997306599194)])}
+11:28:45 | INFO | AutoGluon evaluate() by split: {'Train': {'roc_auc': 0.7993554835596609}, 'Validation': {'roc_auc': 0.7857900318133616}, 'Test': {'roc_auc': 0.7636363636363638}}
+11:28:45 | INFO | Wrote full JSON → results.json
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning: This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning:
+
+This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/4475918/.conda/envs/autogluon_env/lib/python3.10/site-packages/torch/utils/data/dataloader.py:626: UserWarning:
+
+This DataLoader will create 8 worker processes in total. Our suggested max number of worker in current system is 2, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+
+11:33:42 | INFO | Wrote HTML report → report.html
+11:33:42 | INFO | Wrote predictor path → predictor_path.txt
+11:33:42 | INFO | Wrote AutoGluon config → config.yaml
+11:34:14 | INFO | Wrote predictor archive → trained_model.zip
+11:34:14 | INFO | ✓ Output JSON results: results.json (16,990 bytes)
+11:34:14 | INFO | ✓ Output HTML report: report.html (167,504 bytes)
+11:34:14 | INFO | ✓ Output AutoGluon config: config.yaml (4,121 bytes)
+11:34:14 | INFO | ✓ Output trained model archive: trained_model.zip (768,947,985 bytes)
